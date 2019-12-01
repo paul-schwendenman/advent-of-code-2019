@@ -5,13 +5,12 @@ def calculate_fuel(module_mass):
 
 
 def main():
-    pass
-    # load input file
+    lines = []
+    with open('input') as file:
+        lines = file.readlines()
 
-    # execute calculation
-
-    # sum fuel values
+    return sum(calculate_fuel(int(item)) for item in lines)
 
 
 if __name__ == '__main__':
-    main()
+    print(main())
