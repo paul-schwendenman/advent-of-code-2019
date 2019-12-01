@@ -17,7 +17,7 @@ def main():
     with open('input') as file:
         lines = file.readlines()
 
-    return sum(calculate_fuel(int(item)) for item in lines)
+    return sum(calculate_fuel_fuel(int(item)) for item in lines)
 
 
 if __name__ == '__main__':
