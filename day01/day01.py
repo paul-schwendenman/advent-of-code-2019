@@ -1,4 +1,5 @@
 import math
+import sys
 
 
 def calculate_fuel_fuel(module_mass):
@@ -13,13 +14,13 @@ def calculate_fuel(module_mass):
     return max(math.floor(module_mass / 3) - 2, 0)
 
 
-def main():
+def main(filename):
     lines = []
-    with open('input') as file:
+    with open(filename) as file:
         lines = file.readlines()
 
     return sum(calculate_fuel_fuel(int(item)) for item in lines)
 
 
 if __name__ == '__main__':
-    print(main())
+    print(main(sys.argv[1]))
