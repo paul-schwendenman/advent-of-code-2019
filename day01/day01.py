@@ -2,11 +2,11 @@ import math
 
 
 def calculate_fuel_fuel(module_mass):
-    fuel = calculate_fuel(module_mass)
-    if fuel > 0:
+    if module_mass > 0:
+        fuel = calculate_fuel(module_mass)
         return fuel + calculate_fuel_fuel(fuel)
     else:
-        return fuel
+        return 0
 
 def calculate_fuel(module_mass):
     return max(math.floor(module_mass / 3) - 2, 0)
