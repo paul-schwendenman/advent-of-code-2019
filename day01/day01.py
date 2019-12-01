@@ -8,6 +8,7 @@ def calculate_fuel_fuel(module_mass):
     else:
         return 0
 
+
 def calculate_fuel(module_mass):
     return max(math.floor(module_mass / 3) - 2, 0)
 
