@@ -15,3 +15,6 @@ def test_example_3():
 
 def test_example_4():
     assert calculate_fuel(100756) == 33583
+
+def test_example_4():
+    assert calculate_fuel(5) == 0

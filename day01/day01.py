@@ -2,7 +2,7 @@ import math
 
 
 def calculate_fuel(module_mass):
-    return math.floor(module_mass / 3) - 2
+    return max(math.floor(module_mass / 3) - 2, 0)
 
 
 def main():
