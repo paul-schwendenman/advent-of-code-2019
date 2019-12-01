@@ -1,5 +1,6 @@
 import math
 
+
 def calculate_fuel(module_mass):
     return math.floor(module_mass / 3) - 2
 
