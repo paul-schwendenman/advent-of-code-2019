@@ -1,4 +1,4 @@
-from day01 import calculate_fuel
+from day01 import calculate_fuel, calculate_fuel_fuel
 
 
 def test_example_1():
@@ -18,3 +18,6 @@ def test_example_4():
 
 def test_example_4():
     assert calculate_fuel(5) == 0
+
+def test_example_5():
+    assert calculate_fuel_fuel(14) == 2
