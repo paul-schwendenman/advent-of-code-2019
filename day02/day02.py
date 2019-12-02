@@ -2,6 +2,10 @@ def parse_program(program):
     return (int(item) for item in program.split(','))
 
 
+def combine(noun=1, verb=1):
+    # print(f'{noun:02}{verb:02}')
+    return noun * 100 + verb
+
 def run_program(program, cursor=0):
     opcode = program[cursor]
 

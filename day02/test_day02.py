@@ -1,4 +1,4 @@
-from day02 import parse_program, run_program
+from day02 import parse_program, run_program, combine
 
 def test_parse_program():
     assert list(parse_program("1,9,10,70")) == [1, 9, 10, 70]
@@ -17,3 +17,6 @@ def test_out_of_bounds_memory():
 
 def test_multiple_operations():
     assert run_program([1,1,1,4,99,5,6,0,99]) == [30,1,1,4,2,5,6,0,99]
+
+def test_combine_noun_and_verb():
+    assert combine(noun=12, verb=2) == 1202
