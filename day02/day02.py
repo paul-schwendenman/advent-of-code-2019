@@ -10,11 +10,11 @@ def run_program(program, cursor=0):
     elif opcode == 1:
         program[program[cursor + 3]] = program[program[cursor + 1]] + program[program[cursor + 2]]
 
-        return run_program(program, 4)
+        return run_program(program, cursor + 4)
     elif opcode == 2:
         program[program[cursor + 3]] = program[program[cursor + 1]] * program[program[cursor + 2]]
 
-        return run_program(program, 4)
+        return run_program(program, cursor + 4)
 
 def main():
     pass
