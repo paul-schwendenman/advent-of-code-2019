@@ -21,15 +21,29 @@ def run_program(program, cursor=0):
         return run_program(program, cursor + 4)
 
 def main():
+    goal = 19690720 # goal 2
     with open('day02/input') as input:
         program_string = input.readlines()[0]
 
-    program = list(parse_program(program_string))
+    original_program = list(parse_program(program_string))
 
-    program[1] = 12
-    program[2] = 2
+    for noun in range(0, 99):
+        for verb in range(0, 99):
+            program = original_program[:]
+            program[1] = noun
+            program[2] = verb
+            # print(program[:10])
+            output = run_program(program)
+            # print(program[:10])
 
-    return run_program(program)
+            if output[0] == goal:
+                break
+        else:
+            continue
+        break
+
+
+    return combine(noun=noun, verb=verb)
 
 if __name__ == "__main__":
-    print(main()[0])
+    print(main())
