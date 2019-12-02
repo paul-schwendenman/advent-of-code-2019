@@ -8,3 +8,6 @@ def test_empty_program():
 
 def test_simple_addition_program():
     assert run_program([1, 0, 0, 0, 99]) == [2, 0, 0, 0, 99]
+
+def test_simple_multiplication_program():
+    assert run_program([2, 3, 0, 3, 99]) == [2, 3, 0, 6, 99]
