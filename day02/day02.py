@@ -17,7 +17,15 @@ def run_program(program, cursor=0):
         return run_program(program, cursor + 4)
 
 def main():
-    pass
+    with open('day02/input') as input:
+        program_string = input.readlines()[0]
+
+    program = list(parse_program(program_string))
+
+    program[1] = 12
+    program[2] = 2
+
+    return run_program(program)
 
 if __name__ == "__main__":
-    main()
+    print(main()[0])
