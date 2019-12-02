@@ -11,3 +11,6 @@ def test_simple_addition_program():
 
 def test_simple_multiplication_program():
     assert run_program([2, 3, 0, 3, 99]) == [2, 3, 0, 6, 99]
+
+def test_out_of_bounds_memory():
+    assert run_program([2, 4, 4, 5, 99, 0]) == [2, 4, 4, 5, 99, 9801]
