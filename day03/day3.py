@@ -73,6 +73,10 @@ def find_closest_intersection(coords):
     return min(manhattan_distance((0, 0), coord) for coord in coords)
 
 
+def find_signal_delay(coords, path1, path2):
+    return min(path1.index(coord) + path2.index(coord) + 2 for coord in coords)
+
+
 def main(path1, path2):
     path1 = convert_instructions_to_path(path1.split(','))
     path2 = convert_instructions_to_path(path2.split(','))
@@ -82,8 +86,17 @@ def main(path1, path2):
     return find_closest_intersection(coords)
 
 
+def main2(path1, path2):
+    path1 = convert_instructions_to_path(path1.split(','))
+    path2 = convert_instructions_to_path(path2.split(','))
+
+    coords = find_intersections(path1, path2)
+
+    return find_signal_delay(coords, path1, path2)
+
+
 if __name__ == "__main__":
     with open('input') as input:
         lines = input.readlines()
 
-    print(main(lines[0], lines[1]))
+    print(main2(lines[0], lines[1]))
