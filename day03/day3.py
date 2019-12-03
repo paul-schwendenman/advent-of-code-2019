@@ -1,43 +1,9 @@
-X_MAX = 100
-Y_MAX = 100
-X_MID = int(X_MAX / 2)
-Y_MID = int(Y_MAX / 2)
-
-
 def manhattan_distance(pos_a, pos_b):
     return abs(pos_a[0] - pos_b[0]) + abs(pos_a[1] - pos_b[1])
 
 
-def print_grid(grid):
-    for row in grid:
-        print("".join(row))
-
-
 def spilt_instruction(instruction):
     return instruction[0], int(instruction[1:])
-
-
-def find_line_size(path):
-    x_min, x_max = 0, 0
-    y_min, y_max = 0, 0
-    x, y = 0, 0
-
-    for instruction in path:
-        direction, length = spilt_instruction(instruction)
-        if direction == 'R':
-            x += length
-            x_max = max(x_max, x)
-        elif direction == 'L':
-            x -= length
-            x_min = min(x_min, x)
-        elif direction == 'U':
-            y += length
-            y_max = max(y_max, y)
-        elif direction == 'D':
-            y -= length
-            y_min = min(y_min, y)
-
-    return (x_min, y_min), (x_max, y_max)
 
 
 def convert_instructions_to_path(instructions):

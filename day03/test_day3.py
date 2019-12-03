@@ -1,5 +1,5 @@
 from day3 import (
-    manhattan_distance, find_line_size,
+    manhattan_distance,
     convert_instructions_to_path, main, main2,
     find_intersections, find_closest_intersection)
 
@@ -14,14 +14,6 @@ def test_manhattan2():
 
 def test_manhattan3():
     assert manhattan_distance((0, 0), (158, -12)) == 170
-
-
-def test_calc_grid_size():
-    assert find_line_size(["R8", "U5", "L5", "D3"]) == ((0, 0), (8, 5))
-
-
-def test_calc_grid_size2():
-    assert find_line_size(["U7", "R6", "D4", "L4"]) == ((0, 0), (6, 7))
 
 
 def test_line_up_coords():
