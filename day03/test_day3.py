@@ -45,7 +45,9 @@ def test_complicated_coords():
 
 
 def test_find_intersections():
-    assert find_intersections("R8,U5,L5,D3", "U7,R6,D4,L4") == {(3, 3), (6, 5)}
+    path1 = convert_instructions_to_path("R8,U5,L5,D3".split(','))
+    path2 = convert_instructions_to_path("U7,R6,D4,L4".split(','))
+    assert find_intersections(path1,  path2) == {(3, 3), (6, 5)}
 
 
 def test_find_closest_intersection():

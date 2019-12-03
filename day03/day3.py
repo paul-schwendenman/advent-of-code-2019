@@ -66,8 +66,6 @@ def convert_instructions_to_path(instructions):
 
 
 def find_intersections(path1, path2):
-    path1 = convert_instructions_to_path(path1.split(','))
-    path2 = convert_instructions_to_path(path2.split(','))
     return set(path1).intersection(set(path2))
 
 
@@ -76,6 +74,9 @@ def find_closest_intersection(coords):
 
 
 def main(path1, path2):
+    path1 = convert_instructions_to_path(path1.split(','))
+    path2 = convert_instructions_to_path(path2.split(','))
+
     coords = find_intersections(path1, path2)
 
     return find_closest_intersection(coords)
