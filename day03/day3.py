@@ -40,9 +40,50 @@ def find_line_size(path):
     return (x_min, y_min), (x_max, y_max)
 
 
-def main(grid):
+def convert_instructions_to_path(instructions):
+    x, y = 0, 0
+    path = []
 
-    pass
+    for instruction in instructions:
+        direction, length = spilt_instruction(instruction)
+        if direction == 'R':
+            for i in range(length):
+                x += 1
+                path.append((x, y))
+        elif direction == 'L':
+            for i in range(length):
+                x -= 1
+                path.append((x, y))
+        elif direction == 'U':
+            for i in range(length):
+                y += 1
+                path.append((x, y))
+        elif direction == 'D':
+            for i in range(length):
+                y -= 1
+                path.append((x, y))
+    return path
+
+
+def find_intersections(path1, path2):
+    path1 = convert_instructions_to_path(path1.split(','))
+    path2 = convert_instructions_to_path(path2.split(','))
+    return set(path1).intersection(set(path2))
+
+
+def find_closest_intersection(coords):
+    print([manhattan_distance((0, 0), coord) for coord in coords])
+    return min(manhattan_distance((0, 0), coord) for coord in coords)
+
+
+def main(path1, path2):
+    coords = find_intersections(path1, path2)
+
+    c = list(coords)
+    print(c)
+    print([a + b for a, b in c])
+
+    return find_closest_intersection(coords)
 
 
 if __name__ == "__main__":
