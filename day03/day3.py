@@ -72,24 +72,17 @@ def find_intersections(path1, path2):
 
 
 def find_closest_intersection(coords):
-    print([manhattan_distance((0, 0), coord) for coord in coords])
     return min(manhattan_distance((0, 0), coord) for coord in coords)
 
 
 def main(path1, path2):
     coords = find_intersections(path1, path2)
 
-    c = list(coords)
-    print(c)
-    print([a + b for a, b in c])
-
     return find_closest_intersection(coords)
 
 
 if __name__ == "__main__":
-    grid = [['.' for _ in range(X_MAX)] for _ in range(Y_MAX)]
-    grid[Y_MID][X_MID] = 'o'
-    print_grid(grid)
+    with open('input') as input:
+        lines = input.readlines()
 
-    line = "R75,D30,R83,U83,L12,D49,R71,U7,L72".split(",")
-    print(find_line_size(line))
+    print(main(lines[0], lines[1]))
