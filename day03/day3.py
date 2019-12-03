@@ -5,7 +5,7 @@ Y_MID = int(Y_MAX / 2)
 
 
 def manhattan_distance(pos_a, pos_b):
-    return abs(pos_a[0] - pos_b[0]) + abs(pos_a[0] - pos_b[0])
+    return abs(pos_a[0] - pos_b[0]) + abs(pos_a[1] - pos_b[1])
 
 
 def print_grid(grid):

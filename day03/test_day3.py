@@ -8,6 +8,14 @@ def test_manhattan():
     assert manhattan_distance((0, 0), (3, 3)) == 6
 
 
+def test_manhattan2():
+    assert manhattan_distance((0, 0), (155, 4)) == 159
+
+
+def test_manhattan3():
+    assert manhattan_distance((0, 0), (158, -12)) == 170
+
+
 def test_calc_grid_size():
     assert find_line_size(["R8", "U5", "L5", "D3"]) == ((0, 0), (8, 5))
 
