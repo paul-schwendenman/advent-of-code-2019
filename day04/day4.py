@@ -9,12 +9,13 @@ def check_four(a, b, c, d):
 
 def has_double_digit2(number):
     number = str(number)
-    sets = []
-    sets.append((None, number[0], number[1], number[2]))
-    sets.append((number[0], number[1], number[2], number[3]))
-    sets.append((number[1], number[2], number[3], number[4]))
-    sets.append((number[2], number[3], number[4], number[5]))
-    sets.append((number[3], number[4], number[5], None))
+    sets = [
+        (None, number[0], number[1], number[2]),
+        (number[0], number[1], number[2], number[3]),
+        (number[1], number[2], number[3], number[4]),
+        (number[2], number[3], number[4], number[5]),
+        (number[3], number[4], number[5], None),
+    ]
 
     return any(check_four(a, b, c, d) for a, b, c, d in sets)
 
