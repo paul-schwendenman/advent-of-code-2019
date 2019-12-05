@@ -12,8 +12,32 @@ def run_program(program, cursor=0, input_value=1):
 
     if opcode == 99:
         return program
+    elif opcode == 1101:
+        program[program[cursor + 3]] = program[cursor + 1] + program[cursor + 2]
+
+        return run_program(program, cursor + 4)
+    elif opcode == 1001:
+        program[program[cursor + 3]] = program[program[cursor + 1]] + program[cursor + 2]
+
+        return run_program(program, cursor + 4)
+    elif opcode == 101:
+        program[program[cursor + 3]] = program[cursor + 1] + program[program[cursor + 2]]
+
+        return run_program(program, cursor + 4)
     elif opcode == 1:
         program[program[cursor + 3]] = program[program[cursor + 1]] + program[program[cursor + 2]]
+
+        return run_program(program, cursor + 4)
+    elif opcode == 1102:
+        program[program[cursor + 3]] = program[cursor + 1] * program[cursor + 2]
+
+        return run_program(program, cursor + 4)
+    elif opcode == 1002:
+        program[program[cursor + 3]] = program[program[cursor + 1]] * program[cursor + 2]
+
+        return run_program(program, cursor + 4)
+    elif opcode == 102:
+        program[program[cursor + 3]] = program[cursor + 1] * program[program[cursor + 2]]
 
         return run_program(program, cursor + 4)
     elif opcode == 2:
