@@ -48,14 +48,20 @@ def run_program(program, cursor=0, input_value=1):
         program[program[cursor + 1]] = input_value
 
         return run_program(program, cursor + 2)
+    elif opcode == 104:
+        print(program[cursor + 1])
+
+        return run_program(program, cursor + 2)
     elif opcode == 4:
         print(program[program[cursor + 1]])
 
         return run_program(program, cursor + 2)
+    else:
+        print(f"missing opcode: {opcode}")
 
 def main():
     goal = 19690720 # goal 2
-    with open('day04/input') as input:
+    with open('day05/input') as input:
         program_string = input.readlines()[0]
 
     original_program = list(parse_program(program_string))
@@ -79,7 +85,7 @@ def main():
 
 
 def main2():
-    with open('day04/input') as input:
+    with open('day05/input') as input:
         program_string = input.readlines()[0]
 
     program = list(parse_program(program_string))
