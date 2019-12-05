@@ -7,7 +7,7 @@ def combine(noun=1, verb=1):
     return noun * 100 + verb
 
 
-def run_program(program, cursor=0, input_value=1):
+def run_program(program, cursor=0, input_value=5):
     opcode = program[cursor]
 
     if opcode == 99:
@@ -56,6 +56,78 @@ def run_program(program, cursor=0, input_value=1):
         print(program[program[cursor + 1]])
 
         return run_program(program, cursor + 2)
+    elif opcode == 1105:
+        if program[cursor + 1]:
+            return run_program(program, program[cursor + 2])
+
+        return run_program(program, cursor + 3)
+    elif opcode == 1005:
+        if program[program[cursor + 1]]:
+            return run_program(program, program[cursor + 2])
+
+        return run_program(program, cursor + 3)
+    elif opcode == 105:
+        if program[cursor + 1]:
+            return run_program(program, program[program[cursor + 2]])
+
+        return run_program(program, cursor + 3)
+    elif opcode == 5:
+        if program[program[cursor + 1]]:
+            return run_program(program, program[program[cursor + 2]])
+
+        return run_program(program, cursor + 3)
+    elif opcode == 1106:
+        if not program[cursor + 1]:
+            return run_program(program, program[cursor + 2])
+
+        return run_program(program, cursor + 3)
+    elif opcode == 1006:
+        if not program[program[cursor + 1]]:
+            return run_program(program, program[cursor + 2])
+
+        return run_program(program, cursor + 3)
+    elif opcode == 106:
+        if not program[cursor + 1]:
+            return run_program(program, program[program[cursor + 2]])
+
+        return run_program(program, cursor + 3)
+    elif opcode == 6:
+        if not program[program[cursor + 1]]:
+            return run_program(program, program[program[cursor + 2]])
+
+        return run_program(program, cursor + 3)
+    elif opcode == 1107:
+        program[program[cursor + 3]] = 1 if program[cursor + 1] < program[cursor + 2] else 0
+
+        return run_program(program, cursor + 4)
+    elif opcode == 1007:
+        program[program[cursor + 3]] = 1 if program[program[cursor + 1]] < program[cursor + 2] else 0
+
+        return run_program(program, cursor + 4)
+    elif opcode == 107:
+        program[program[cursor + 3]] = 1 if program[cursor + 1] < program[program[cursor + 2]] else 0
+
+        return run_program(program, cursor + 4)
+    elif opcode == 7:
+        program[program[cursor + 3]] = 1 if program[program[cursor + 1]] < program[program[cursor + 2]] else 0
+
+        return run_program(program, cursor + 4)
+    elif opcode == 1108:
+        program[program[cursor + 3]] = 1 if program[cursor + 1] == program[cursor + 2] else 0
+
+        return run_program(program, cursor + 4)
+    elif opcode == 1008:
+        program[program[cursor + 3]] = 1 if program[program[cursor + 1]] == program[cursor + 2] else 0
+
+        return run_program(program, cursor + 4)
+    elif opcode == 108:
+        program[program[cursor + 3]] = 1 if program[cursor + 1] == program[program[cursor + 2]] else 0
+
+        return run_program(program, cursor + 4)
+    elif opcode == 8:
+        program[program[cursor + 3]] = 1 if program[program[cursor + 1]] == program[program[cursor + 2]] else 0
+
+        return run_program(program, cursor + 4)
     else:
         print(f"missing opcode: {opcode}")
 
