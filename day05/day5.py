@@ -2,6 +2,13 @@ def parse_program(program):
     return (int(item) for item in program.split(','))
 
 
+def split_instruction(instruction):
+    opcode = instruction % 100
+    parameter_modes = (instruction - opcode) / 100
+
+    return opcode, parameter_modes
+
+
 def run_program(program, cursor=0, input_value=5):
     opcode = program[cursor]
 
