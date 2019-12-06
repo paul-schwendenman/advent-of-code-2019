@@ -25,9 +25,9 @@ def count_orbits(orbit_map, key="COM", depth=0):
 
 
 def find_path(orbit_map, start="COM", end="YOU"):
-    print(f'{start} -> {end}')
+    # print(f'{start} -> {end}')
     if end in orbit_map[start]:
-        print('got \'em')
+        # print('got \'em')
         return [start]
     else:
         for child in orbit_map[start]:
