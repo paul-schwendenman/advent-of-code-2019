@@ -12,22 +12,15 @@ def create_map(orbits):
 
 
 def count_orbits(orbit_map, key="COM", depth=0):
-    # print(f'key: {key} map: {orbit_map}')
     if key in orbit_map:
         total = sum([count_orbits(orbit_map, child, depth+1) for child in orbit_map[key]])
-        print(f'key {key} total {total}')
-        # print(f'key: {key} direct: {direct} indirect: {indirect}')
-        # return direct + indirect
         return total + depth
     else:
-        print(f'stop - key {key}, {depth}')
         return depth
 
 
 def find_path(orbit_map, start="COM", end="YOU"):
-    # print(f'{start} -> {end}')
     if end in orbit_map[start]:
-        # print('got \'em')
         return [start]
     else:
         for child in orbit_map[start]:
