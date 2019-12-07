@@ -40,11 +40,18 @@ def lookup_value(memory, mode, position):
         pass
 
 
+def lookup_values(memory, parameter_modes, cursor):
+    param_1 = lookup_value(memory, parameter_modes[0], cursor + 1)
+    param_2 = lookup_value(memory, parameter_modes[1], cursor + 2)
+    param_3 = lookup_value(memory, parameter_modes[2], cursor + 3)
+
+    return param_1, param_2, param_3
+
+
 def run_program(program, cursor=0, input_value=5):
     opcode, parameter_modes = split_instruction(program[cursor])
-    param_1 = lookup_value(program, parameter_modes[0], cursor + 1)
-    param_2 = lookup_value(program, parameter_modes[1], cursor + 2)
-    param_3 = lookup_value(program, parameter_modes[2], cursor + 3)
+
+    param_1, param_2, param_3 = lookup_values(program, parameter_modes, cursor)
 
     if opcode is Opcode.HALT:
         return program
