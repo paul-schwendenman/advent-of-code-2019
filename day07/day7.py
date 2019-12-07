@@ -62,45 +62,36 @@ def run_program(program, cursor=0, input_value=[5]):
         elif opcode is Opcode.ADD:
             program[params[2]] = program[params[0]] + program[params[1]]
 
-            # return run_program(program, cursor + 4, input_value)
             cursor += 4
         elif opcode is Opcode.MULTIPY:
             program[params[2]] = program[params[0]] * program[params[1]]
 
-            # return run_program(program, cursor + 4, input_value)
             cursor += 4
         elif opcode is Opcode.INPUT:
             program[params[0]] = next(input_values)
 
-            # return run_program(program, cursor + 2, input_value)
             cursor += 2
         elif opcode is Opcode.OUTPUT:
-            # print(program[params[0]])
             output.append(program[params[0]])
 
-            # return run_program(program, cursor + 2, input_value)
             cursor += 2
         elif opcode is Opcode.JUMP_IF:
             if program[params[0]]:
-                return run_program(program, program[params[1]], input_value)
-
-            # return run_program(program, cursor + 3, input_value)
-            cursor += 3
+                cursor = program[params[1]]
+            else:
+                cursor += 3
         elif opcode is Opcode.JUMP_NOT_IF:
             if not program[params[0]]:
-                return run_program(program, program[params[1]], input_value)
-
-            # return run_program(program, cursor + 3, input_value)
-            cursor += 3
+                cursor = program[params[1]]
+            else:
+                cursor += 3
         elif opcode is Opcode.LESS_THAN:
             program[params[2]] = 1 if program[params[0]] < program[params[1]] else 0
 
             cursor += 4
-            # return run_program(program, cursor + 4, input_value)
         elif opcode is Opcode.EQUAL_TO:
             program[params[2]] = 1 if program[params[0]] == program[params[1]] else 0
 
-            # return run_program(program, cursor + 4, input_value)
             cursor += 4
         else:
             print(f"missing opcode: {opcode}")
