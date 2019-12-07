@@ -48,7 +48,7 @@ def lookup_values(memory, parameter_modes, cursor):
     return param_1, param_2, param_3
 
 
-def run_program(program, cursor=0, input_value=5):
+def run_program(program, cursor=0, input_value=iter([5])):
     opcode, parameter_modes = split_instruction(program[cursor])
 
     params = lookup_values(program, parameter_modes, cursor)
@@ -64,7 +64,7 @@ def run_program(program, cursor=0, input_value=5):
 
         return run_program(program, cursor + 4, input_value)
     elif opcode is Opcode.INPUT:
-        program[params[0]] = input_value
+        program[params[0]] = next(input_value)
 
         return run_program(program, cursor + 2, input_value)
     elif opcode is Opcode.OUTPUT:
@@ -94,7 +94,7 @@ def run_program(program, cursor=0, input_value=5):
 
 
 def main(param=1):
-    with open('day05/input') as input:
+    with open('input') as input:
         program_string = input.readlines()[0]
 
     program = list(parse_program(program_string))
@@ -102,5 +102,8 @@ def main(param=1):
 
 
 if __name__ == "__main__":
-    main(1)
-    main(5)
+    main(iter([4, 0]))
+    main(iter([3, 4]))
+    main(iter([2, 43]))
+    main(iter([1, 432]))
+    main(iter([0, 4321]))
