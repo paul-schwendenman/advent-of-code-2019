@@ -1,5 +1,6 @@
 import sys
 from enum import Enum
+import itertools
 
 
 class Opcode(Enum):
@@ -58,7 +59,7 @@ def run_program(program, cursor=0, input_value=[5]):
         params = lookup_values(program, parameter_modes, cursor)
 
         if opcode is Opcode.HALT:
-            return output
+            return output[-1]
         elif opcode is Opcode.ADD:
             program[params[2]] = program[params[0]] + program[params[1]]
 
@@ -100,11 +101,11 @@ def run_program(program, cursor=0, input_value=[5]):
 def run_amps(phase_options, program):
     option = phase_options
 
-    pass1 = int(run_program(program, input_value=[option[0], 0])[0])
-    pass2 = int(run_program(program, input_value=[option[1], pass1])[0])
-    pass3 = int(run_program(program, input_value=[option[2], pass2])[0])
-    pass4 = int(run_program(program, input_value=[option[3], pass3])[0])
-    pass5 = int(run_program(program, input_value=[option[4], pass4])[0])
+    pass1 = int(run_program(program, input_value=[option[0], 0]))
+    pass2 = int(run_program(program, input_value=[option[1], pass1]))
+    pass3 = int(run_program(program, input_value=[option[2], pass2]))
+    pass4 = int(run_program(program, input_value=[option[3], pass3]))
+    pass5 = int(run_program(program, input_value=[option[4], pass4]))
 
     return pass5
 
@@ -116,7 +117,12 @@ def main():
     # return run_program(program, input_value=param)
     # return run_amps([4, 3, 2, 1, 0], program)
     # return run_amps([0,1,2,3,4], program)
-    return run_amps([1,0,4,3,2], program)
+    best_score = 0
+    for seq in itertools.permutations([0, 1, 2, 3, 4]):
+        output = run_amps(seq, program)
+        if output > best_score:
+            best_score = output
+    return best_score
 
 
 if __name__ == "__main__":
