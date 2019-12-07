@@ -1,4 +1,4 @@
-from day6 import calc_orbits, calc_hops
+from day6 import calc_orbits, calc_hops, main, main2
 
 
 def test_calc_orbits():
@@ -6,8 +6,16 @@ def test_calc_orbits():
 
 
 def test_calc_orbits2():
-    assert calc_orbits(['COM)B\n', 'B)C\n', 'C)D\n', 'D)E\n', 'E)F\n', 'B)G\n', 'G)H\n', 'D)I\n', 'E)J\n', 'J)K\n', 'K)L\n']) == 42
+    assert calc_orbits(['COM)B', 'B)C', 'C)D', 'D)E', 'E)F', 'B)G', 'G)H', 'D)I', 'E)J', 'J)K', 'K)L']) == 42
 
 
 def test_calc_hops():
-    assert calc_hops(['COM)B\n', 'B)C\n', 'C)D\n', 'D)E\n', 'E)F\n', 'B)G\n', 'G)H\n', 'D)I\n', 'E)J\n', 'J)K\n', 'K)L\n', 'K)YOU\n', 'I)SAN\n']) == 4
+    assert calc_hops(['COM)B', 'B)C', 'C)D', 'D)E', 'E)F', 'B)G', 'G)H', 'D)I', 'E)J', 'J)K', 'K)L', 'K)YOU', 'I)SAN']) == 4
+
+
+def test_main():
+    assert main() == 154386
+
+
+def test_main2():
+    assert main2() == 346

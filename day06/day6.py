@@ -5,7 +5,7 @@ def create_map(orbits):
     orbit_map = defaultdict(list)
 
     for orbit in orbits:
-        parent, child = orbit.strip().split(')')
+        parent, child = orbit.split(')')
         orbit_map[parent].append(child)
 
     return orbit_map
@@ -47,7 +47,7 @@ def calc_hops(lines):
 
 def main():
     with open('day06/input') as input:
-        lines = input.readlines()
+        lines = input.read().splitlines()
 
     orbits = calc_orbits(lines)
 
@@ -56,11 +56,11 @@ def main():
 
 def main2():
     with open('day06/input') as input:
-        lines = input.readlines()
+        lines = input.read().splitlines()
 
     return calc_hops(lines)
 
 
 if __name__ == "__main__":
-    # print(main())
+    print(main())
     print(main2())
