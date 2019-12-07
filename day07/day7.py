@@ -49,77 +49,86 @@ def lookup_values(memory, parameter_modes, cursor):
     return param_1, param_2, param_3
 
 
-def run_program(program, cursor=0, input_value=[5]):
-    output = []
-    input_values = iter(input_value)
+class IntCode():
+    def __init__(self, program):
+        self.program = program[:]
+        self.cursor = 0
+        self.inputs = []
+        self.outputs = []
 
-    while True:
-        opcode, parameter_modes = split_instruction(program[cursor])
+    def run(self):
 
-        params = lookup_values(program, parameter_modes, cursor)
+        while True:
+            opcode, parameter_modes = split_instruction(self.program[self.cursor])
 
-        if opcode is Opcode.HALT:
-            return output[-1]
-        elif opcode is Opcode.ADD:
-            program[params[2]] = program[params[0]] + program[params[1]]
+            params = lookup_values(self.program, parameter_modes, self.cursor)
 
-            cursor += 4
-        elif opcode is Opcode.MULTIPY:
-            program[params[2]] = program[params[0]] * program[params[1]]
+            if opcode is Opcode.HALT:
+                return self.outputs[-1]
+            elif opcode is Opcode.ADD:
+                self.program[params[2]] = self.program[params[0]] + self.program[params[1]]
 
-            cursor += 4
-        elif opcode is Opcode.INPUT:
-            program[params[0]] = next(input_values)
+                self.cursor += 4
+            elif opcode is Opcode.MULTIPY:
+                self.program[params[2]] = self.program[params[0]] * self.program[params[1]]
 
-            cursor += 2
-        elif opcode is Opcode.OUTPUT:
-            output.append(program[params[0]])
+                self.cursor += 4
+            elif opcode is Opcode.INPUT:
+                self.program[params[0]] = self.inputs.pop(0)
 
-            cursor += 2
-        elif opcode is Opcode.JUMP_IF:
-            if program[params[0]]:
-                cursor = program[params[1]]
+                self.cursor += 2
+            elif opcode is Opcode.OUTPUT:
+                self.outputs.append(self.program[params[0]])
+
+                self.cursor += 2
+            elif opcode is Opcode.JUMP_IF:
+                if self.program[params[0]]:
+                    self.cursor = self.program[params[1]]
+                else:
+                    self.cursor += 3
+            elif opcode is Opcode.JUMP_NOT_IF:
+                if not self.program[params[0]]:
+                    self.cursor = self.program[params[1]]
+                else:
+                    self.cursor += 3
+            elif opcode is Opcode.LESS_THAN:
+                self.program[params[2]] = 1 if self.program[params[0]] < self.program[params[1]] else 0
+
+                self.cursor += 4
+            elif opcode is Opcode.EQUAL_TO:
+                self.program[params[2]] = 1 if self.program[params[0]] == self.program[params[1]] else 0
+
+                self.cursor += 4
             else:
-                cursor += 3
-        elif opcode is Opcode.JUMP_NOT_IF:
-            if not program[params[0]]:
-                cursor = program[params[1]]
-            else:
-                cursor += 3
-        elif opcode is Opcode.LESS_THAN:
-            program[params[2]] = 1 if program[params[0]] < program[params[1]] else 0
-
-            cursor += 4
-        elif opcode is Opcode.EQUAL_TO:
-            program[params[2]] = 1 if program[params[0]] == program[params[1]] else 0
-
-            cursor += 4
-        else:
-            print(f"missing opcode: {opcode}")
+                print(f"missing opcode: {opcode}")
 
 
-def run_amps(phase_options, program):
-    option = phase_options
+def make_amps(program, phases):
+    amps = [IntCode(program) for _ in range(5)]
 
-    pass1 = int(run_program(program, input_value=[option[0], 0]))
-    pass2 = int(run_program(program, input_value=[option[1], pass1]))
-    pass3 = int(run_program(program, input_value=[option[2], pass2]))
-    pass4 = int(run_program(program, input_value=[option[3], pass3]))
-    pass5 = int(run_program(program, input_value=[option[4], pass4]))
+    for counter in range(5):
+        amps[counter].inputs.append(phases[counter])
 
-    return pass5
+    return amps
+
+
+def run_amps(amps, amp_input):
+    for amp in amps:
+        amp.inputs.append(amp_input)
+        amp_input = amp.run()
+
+    return amp_input
+
 
 def main():
     with open('input') as input:
         program_string = input.readlines()[0]
 
     program = list(parse_program(program_string))
-    # return run_program(program, input_value=param)
-    # return run_amps([4, 3, 2, 1, 0], program)
-    # return run_amps([0,1,2,3,4], program)
     best_score = 0
     for seq in itertools.permutations([0, 1, 2, 3, 4]):
-        output = run_amps(seq, program)
+        amps = make_amps(program, seq)
+        output = run_amps(amps, 0)
         if output > best_score:
             best_score = output
     return best_score
@@ -127,7 +136,3 @@ def main():
 
 if __name__ == "__main__":
     print(main())
-    # main(iter([3, 4]))
-    # main(iter([2, 43]))
-    # main(iter([1, 432]))
-    # main(iter([0, 4321]))
