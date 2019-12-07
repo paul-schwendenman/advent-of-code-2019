@@ -126,13 +126,9 @@ def run_amps(amps, amp_input):
     return amp_input
 
 
-def main():
-    with open('input') as input:
-        program_string = input.readlines()[0]
-
-    program = list(parse_program(program_string))
+def run_program(program, phases):
     best_score = 0
-    for seq in itertools.permutations([5, 6, 7, 8, 9]):
+    for seq in itertools.permutations(phases):
         amps = make_amps(program, seq)
         output = run_amps(amps, 0)
         if output > best_score:
@@ -140,5 +136,14 @@ def main():
     return best_score
 
 
+def main(phases):
+    with open('input') as input:
+        program_string = input.readlines()[0]
+
+    program = list(parse_program(program_string))
+    return run_program(program, phases)
+
+
 if __name__ == "__main__":
-    print(main())
+    print(main([0, 1, 2, 3, 4]))
+    print(main([5, 6, 7, 8, 9]))
