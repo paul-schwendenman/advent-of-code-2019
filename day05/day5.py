@@ -51,42 +51,42 @@ def lookup_values(memory, parameter_modes, cursor):
 def run_program(program, cursor=0, input_value=5):
     opcode, parameter_modes = split_instruction(program[cursor])
 
-    param_1, param_2, param_3 = lookup_values(program, parameter_modes, cursor)
+    params = lookup_values(program, parameter_modes, cursor)
 
     if opcode is Opcode.HALT:
         return program
     elif opcode is Opcode.ADD:
-        program[param_3] = program[param_1] + program[param_2]
+        program[params[2]] = program[params[0]] + program[params[1]]
 
         return run_program(program, cursor + 4, input_value)
     elif opcode is Opcode.MULTIPY:
-        program[param_3] = program[param_1] * program[param_2]
+        program[params[2]] = program[params[0]] * program[params[1]]
 
         return run_program(program, cursor + 4, input_value)
     elif opcode is Opcode.INPUT:
-        program[param_1] = input_value
+        program[params[0]] = input_value
 
         return run_program(program, cursor + 2, input_value)
     elif opcode is Opcode.OUTPUT:
-        print(program[param_1])
+        print(program[params[0]])
 
         return run_program(program, cursor + 2, input_value)
     elif opcode is Opcode.JUMP_IF:
-        if program[param_1]:
-            return run_program(program, program[param_2], input_value)
+        if program[params[0]]:
+            return run_program(program, program[params[1]], input_value)
 
         return run_program(program, cursor + 3, input_value)
     elif opcode is Opcode.JUMP_NOT_IF:
-        if not program[param_1]:
-            return run_program(program, program[param_2], input_value)
+        if not program[params[0]]:
+            return run_program(program, program[params[1]], input_value)
 
         return run_program(program, cursor + 3, input_value)
     elif opcode is Opcode.LESS_THAN:
-        program[param_3] = 1 if program[param_1] < program[param_2] else 0
+        program[params[2]] = 1 if program[params[0]] < program[params[1]] else 0
 
         return run_program(program, cursor + 4, input_value)
     elif opcode is Opcode.EQUAL_TO:
-        program[param_3] = 1 if program[param_1] == program[param_2] else 0
+        program[params[2]] = 1 if program[params[0]] == program[params[1]] else 0
 
         return run_program(program, cursor + 4, input_value)
     else:
