@@ -1,4 +1,17 @@
 import sys
+from enum import Enum
+
+
+class Opcode(Enum):
+    ADD = 1
+    MULTIPY = 2
+    INPUT = 3
+    OUTPUT = 4
+    JUMP_IF = 5
+    JUMP_NOT_IF = 6
+    LESS_THAN = 7
+    EQUAL_TO = 8
+    HALT = 99
 
 
 def eprint(*args, **kwargs):
@@ -10,7 +23,7 @@ def parse_program(program):
 
 
 def split_instruction(instruction):
-    opcode = instruction % 100
+    opcode = Opcode(instruction % 100)
     instruction = list(str(instruction))
     parameter_modes = (["0"] * 5 + instruction)[-3:-6:-1]
 
@@ -33,39 +46,39 @@ def run_program(program, cursor=0, input_value=5):
     param_2 = lookup_value(program, parameter_modes[1], cursor + 2)
     param_3 = lookup_value(program, parameter_modes[2], cursor + 3)
 
-    if opcode == 99:
+    if opcode is Opcode.HALT:
         return program
-    elif opcode == 1:
+    elif opcode is Opcode.ADD:
         program[param_3] = program[param_1] + program[param_2]
 
         return run_program(program, cursor + 4, input_value)
-    elif opcode == 2:
+    elif opcode is Opcode.MULTIPY:
         program[param_3] = program[param_1] * program[param_2]
 
         return run_program(program, cursor + 4, input_value)
-    elif opcode == 3:
+    elif opcode is Opcode.INPUT:
         program[param_1] = input_value
 
         return run_program(program, cursor + 2, input_value)
-    elif opcode == 4:
+    elif opcode is Opcode.OUTPUT:
         print(program[param_1])
 
         return run_program(program, cursor + 2, input_value)
-    elif opcode == 5:
+    elif opcode is Opcode.JUMP_IF:
         if program[param_1]:
             return run_program(program, program[param_2], input_value)
 
         return run_program(program, cursor + 3, input_value)
-    elif opcode == 6:
+    elif opcode is Opcode.JUMP_NOT_IF:
         if not program[param_1]:
             return run_program(program, program[param_2], input_value)
 
         return run_program(program, cursor + 3, input_value)
-    elif opcode == 7:
+    elif opcode is Opcode.LESS_THAN:
         program[param_3] = 1 if program[param_1] < program[param_2] else 0
 
         return run_program(program, cursor + 4, input_value)
-    elif opcode == 8:
+    elif opcode is Opcode.EQUAL_TO:
         program[param_3] = 1 if program[param_1] == program[param_2] else 0
 
         return run_program(program, cursor + 4, input_value)
