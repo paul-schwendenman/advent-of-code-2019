@@ -64,7 +64,7 @@ class IntCode():
             params = lookup_values(self.program, parameter_modes, self.cursor)
 
             if opcode is Opcode.HALT:
-                return self.outputs[-1]
+                return True
             elif opcode is Opcode.ADD:
                 self.program[params[2]] = self.program[params[0]] + self.program[params[1]]
 
@@ -74,7 +74,10 @@ class IntCode():
 
                 self.cursor += 4
             elif opcode is Opcode.INPUT:
-                self.program[params[0]] = self.inputs.pop(0)
+                if self.inputs:
+                    self.program[params[0]] = self.inputs.pop(0)
+                else:
+                    return False
 
                 self.cursor += 2
             elif opcode is Opcode.OUTPUT:
@@ -113,9 +116,12 @@ def make_amps(program, phases):
 
 
 def run_amps(amps, amp_input):
-    for amp in amps:
-        amp.inputs.append(amp_input)
-        amp_input = amp.run()
+    halted = False
+    while not halted:
+        for amp in amps:
+            amp.inputs.append(amp_input)
+            halted = amp.run()
+            amp_input = amp.outputs.pop(0)
 
     return amp_input
 
@@ -126,7 +132,7 @@ def main():
 
     program = list(parse_program(program_string))
     best_score = 0
-    for seq in itertools.permutations([0, 1, 2, 3, 4]):
+    for seq in itertools.permutations([5, 6, 7, 8, 9]):
         amps = make_amps(program, seq)
         output = run_amps(amps, 0)
         if output > best_score:
