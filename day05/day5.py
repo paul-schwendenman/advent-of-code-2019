@@ -39,10 +39,6 @@ def run_program(program, cursor=0, input_value=5):
         program[program[cursor + 1]] = input_value
 
         return run_program(program, cursor + 2, input_value)
-    elif opcode == 104:
-        print(program[cursor + 1])
-
-        return run_program(program, cursor + 2, input_value)
     elif opcode == 4:
         print(param_1)
 
