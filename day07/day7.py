@@ -49,48 +49,60 @@ def lookup_values(memory, parameter_modes, cursor):
 
 
 def run_program(program, cursor=0, input_value=iter([5])):
-    opcode, parameter_modes = split_instruction(program[cursor])
+    output = []
 
-    params = lookup_values(program, parameter_modes, cursor)
+    while True:
+        opcode, parameter_modes = split_instruction(program[cursor])
 
-    if opcode is Opcode.HALT:
-        return program
-    elif opcode is Opcode.ADD:
-        program[params[2]] = program[params[0]] + program[params[1]]
+        params = lookup_values(program, parameter_modes, cursor)
 
-        return run_program(program, cursor + 4, input_value)
-    elif opcode is Opcode.MULTIPY:
-        program[params[2]] = program[params[0]] * program[params[1]]
+        if opcode is Opcode.HALT:
+            return output
+        elif opcode is Opcode.ADD:
+            program[params[2]] = program[params[0]] + program[params[1]]
 
-        return run_program(program, cursor + 4, input_value)
-    elif opcode is Opcode.INPUT:
-        program[params[0]] = next(input_value)
+            # return run_program(program, cursor + 4, input_value)
+            cursor += 4
+        elif opcode is Opcode.MULTIPY:
+            program[params[2]] = program[params[0]] * program[params[1]]
 
-        return run_program(program, cursor + 2, input_value)
-    elif opcode is Opcode.OUTPUT:
-        print(program[params[0]])
+            # return run_program(program, cursor + 4, input_value)
+            cursor += 4
+        elif opcode is Opcode.INPUT:
+            program[params[0]] = next(input_value)
 
-        return run_program(program, cursor + 2, input_value)
-    elif opcode is Opcode.JUMP_IF:
-        if program[params[0]]:
-            return run_program(program, program[params[1]], input_value)
+            # return run_program(program, cursor + 2, input_value)
+            cursor += 2
+        elif opcode is Opcode.OUTPUT:
+            print(program[params[0]])
+            output.append(program[params[0]])
 
-        return run_program(program, cursor + 3, input_value)
-    elif opcode is Opcode.JUMP_NOT_IF:
-        if not program[params[0]]:
-            return run_program(program, program[params[1]], input_value)
+            # return run_program(program, cursor + 2, input_value)
+            cursor += 2
+        elif opcode is Opcode.JUMP_IF:
+            if program[params[0]]:
+                return run_program(program, program[params[1]], input_value)
 
-        return run_program(program, cursor + 3, input_value)
-    elif opcode is Opcode.LESS_THAN:
-        program[params[2]] = 1 if program[params[0]] < program[params[1]] else 0
+            # return run_program(program, cursor + 3, input_value)
+            cursor += 3
+        elif opcode is Opcode.JUMP_NOT_IF:
+            if not program[params[0]]:
+                return run_program(program, program[params[1]], input_value)
 
-        return run_program(program, cursor + 4, input_value)
-    elif opcode is Opcode.EQUAL_TO:
-        program[params[2]] = 1 if program[params[0]] == program[params[1]] else 0
+            # return run_program(program, cursor + 3, input_value)
+            cursor += 3
+        elif opcode is Opcode.LESS_THAN:
+            program[params[2]] = 1 if program[params[0]] < program[params[1]] else 0
 
-        return run_program(program, cursor + 4, input_value)
-    else:
-        print(f"missing opcode: {opcode}")
+            cursor += 4
+            # return run_program(program, cursor + 4, input_value)
+        elif opcode is Opcode.EQUAL_TO:
+            program[params[2]] = 1 if program[params[0]] == program[params[1]] else 0
+
+            # return run_program(program, cursor + 4, input_value)
+            cursor += 4
+        else:
+            print(f"missing opcode: {opcode}")
 
 
 def main(param=1):
@@ -98,11 +110,11 @@ def main(param=1):
         program_string = input.readlines()[0]
 
     program = list(parse_program(program_string))
-    run_program(program, input_value=param)
+    return run_program(program, input_value=param)
 
 
 if __name__ == "__main__":
-    main(iter([4, 0]))
+    print(main(iter([4, 0])))
     main(iter([3, 4]))
     main(iter([2, 43]))
     main(iter([1, 432]))
