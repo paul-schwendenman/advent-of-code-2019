@@ -48,8 +48,9 @@ def lookup_values(memory, parameter_modes, cursor):
     return param_1, param_2, param_3
 
 
-def run_program(program, cursor=0, input_value=iter([5])):
+def run_program(program, cursor=0, input_value=[5]):
     output = []
+    input_values = iter(input_value)
 
     while True:
         opcode, parameter_modes = split_instruction(program[cursor])
@@ -69,12 +70,12 @@ def run_program(program, cursor=0, input_value=iter([5])):
             # return run_program(program, cursor + 4, input_value)
             cursor += 4
         elif opcode is Opcode.INPUT:
-            program[params[0]] = next(input_value)
+            program[params[0]] = next(input_values)
 
             # return run_program(program, cursor + 2, input_value)
             cursor += 2
         elif opcode is Opcode.OUTPUT:
-            print(program[params[0]])
+            # print(program[params[0]])
             output.append(program[params[0]])
 
             # return run_program(program, cursor + 2, input_value)
@@ -105,17 +106,31 @@ def run_program(program, cursor=0, input_value=iter([5])):
             print(f"missing opcode: {opcode}")
 
 
-def main(param=1):
+def run_amps(phase_options, program):
+    option = phase_options
+
+    pass1 = int(run_program(program, input_value=[option[0], 0])[0])
+    pass2 = int(run_program(program, input_value=[option[1], pass1])[0])
+    pass3 = int(run_program(program, input_value=[option[2], pass2])[0])
+    pass4 = int(run_program(program, input_value=[option[3], pass3])[0])
+    pass5 = int(run_program(program, input_value=[option[4], pass4])[0])
+
+    return pass5
+
+def main():
     with open('input') as input:
         program_string = input.readlines()[0]
 
     program = list(parse_program(program_string))
-    return run_program(program, input_value=param)
+    # return run_program(program, input_value=param)
+    # return run_amps([4, 3, 2, 1, 0], program)
+    # return run_amps([0,1,2,3,4], program)
+    return run_amps([1,0,4,3,2], program)
 
 
 if __name__ == "__main__":
-    print(main(iter([4, 0])))
-    main(iter([3, 4]))
-    main(iter([2, 43]))
-    main(iter([1, 432]))
-    main(iter([0, 4321]))
+    print(main())
+    # main(iter([3, 4]))
+    # main(iter([2, 43]))
+    # main(iter([1, 432]))
+    # main(iter([0, 4321]))
