@@ -23,6 +23,12 @@ class Opcode(Enum):
     HALT = 99
 
 
+class ParameterMode(Enum):
+    POSITION = '0'
+    IMMEDIATE = '1'
+    RELATIVE = '2'
+
+
 def eprint(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
 
@@ -34,18 +40,18 @@ def parse_program(program):
 def split_instruction(instruction):
     opcode = Opcode(instruction % 100)
     instruction = list(str(instruction))
-    parameter_modes = (["0"] * 5 + instruction)[-3:-6:-1]
+    parameter_modes = [ParameterMode(mode) for mode in (["0"] * 5 + instruction)[-3:-6:-1]]
 
     return opcode, parameter_modes
 
 
 def lookup_value(memory, mode, position, relative_base):
     try:
-        if mode == '0':
+        if mode == ParameterMode.POSITION:
             return memory[position]
-        elif mode == '1':
+        elif mode == ParameterMode.IMMEDIATE:
             return position
-        elif mode == '2':
+        elif mode == ParameterMode.RELATIVE:
             return relative_base + memory[position]
         else:
             raise InvalidParameterMode
