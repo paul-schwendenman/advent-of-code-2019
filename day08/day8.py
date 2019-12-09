@@ -1,5 +1,11 @@
-
 from collections import Counter
+from enum import Enum
+
+
+class Pixel(Enum):
+    BLACK = '0'
+    WHITE = '1'
+    TRANSPARENT = '2'
 
 
 class Image():
@@ -11,12 +17,12 @@ class Image():
             self.data = data
             self.add_layer(data)
         else:
-            self.data = ['2'] * (width * height)
+            self.data = [Pixel.TRANSPARENT] * (width * height)
 
     def add_layer(self, layer):
         self.layers.append(layer)
         for index, pixel in enumerate(layer):
-            if self.data[index] == '2':
+            if self.data[index] == Pixel.TRANSPARENT:
                 self.data[index] = pixel
 
     def show(self):
@@ -24,10 +30,12 @@ class Image():
 
         for row in image_rows:
             for pixel in row:
-                if pixel == '0':
+                if pixel == Pixel.BLACK:
                     print(' ', end='')
-                else:
+                elif pixel == Pixel.WHITE:
                     print('#', end='')
+                else:
+                    print('?', end='')
             print('')
 
 
@@ -62,7 +70,7 @@ def main():
 def main2():
     width, height = 25, 6
     with open('input') as file:
-        data = list(file.read())[:-1]
+        data = [Pixel(pixel) for pixel in (file.read()) if pixel != '\n']
 
     dimensions = width * height
 
