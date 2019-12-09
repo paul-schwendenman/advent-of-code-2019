@@ -106,44 +106,14 @@ class IntCode():
                 print(f"missing opcode: {opcode}")
 
 
-def make_amps(program, phases):
-    amps = [IntCode(program) for _ in range(5)]
-
-    for counter in range(5):
-        amps[counter].inputs.append(phases[counter])
-
-    return amps
-
-
-def run_amps(amps, amp_input):
-    halted = False
-    while not halted:
-        for amp in amps:
-            amp.inputs.append(amp_input)
-            halted = amp.run()
-            amp_input = amp.outputs.pop(0)
-
-    return amp_input
-
-
-def run_program(program, phases):
-    best_score = 0
-    for seq in itertools.permutations(phases):
-        amps = make_amps(program, seq)
-        output = run_amps(amps, 0)
-        if output > best_score:
-            best_score = output
-    return best_score
-
-
-def main(phases):
-    with open('day07/input') as input:
+def main():
+    with open('../day09/input') as input:
         program_string = input.readlines()[0]
 
     program = list(parse_program(program_string))
-    return run_program(program, phases)
+    computer = IntCode(program)
+    return computer.run()
 
 
 if __name__ == "__main__":
-    print(main([0, 1, 2, 3, 4]))
-    print(main([5, 6, 7, 8, 9]))
+    print(main())
