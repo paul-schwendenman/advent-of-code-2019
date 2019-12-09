@@ -69,64 +69,70 @@ def lookup_values(memory, parameter_modes, cursor, relative_base):
 
 
 class IntCode():
-    def __init__(self, program):
-        self.program = program[:] + [0] * 1000
-        self.cursor = 0
+    def __init__(self, program=None, default_memory=2000):
+        self._memory = [0] * default_memory
+        self._cursor = 0
+        self._relative_base = 0
+
+        if program:
+            self.load_program(program)
+
         self.inputs = []
         self.outputs = []
-        self.relative_base = 0
+
+    def load_program(self, program):
+        self._memory[:len(program)] = program
 
     def run(self):
-
         while True:
-            opcode, parameter_modes = split_instruction(self.program[self.cursor])
+            opcode, parameter_modes = split_instruction(self._memory[self._cursor])
 
-            params = lookup_values(self.program, parameter_modes, self.cursor, self.relative_base)
+            params = lookup_values(self._memory, parameter_modes, self._cursor, self._relative_base)
             # eprint(f'{opcode} {params} {parameter_modes}')
 
             if opcode is Opcode.HALT:
                 return True
             elif opcode is Opcode.ADD:
-                self.program[params[2]] = self.program[params[0]] + self.program[params[1]]
+                self._memory[params[2]] = self._memory[params[0]] + self._memory[params[1]]
 
-                self.cursor += 4
+                self._cursor += 4
             elif opcode is Opcode.MULTIPY:
-                self.program[params[2]] = self.program[params[0]] * self.program[params[1]]
+                self._memory[params[2]] = self._memory[params[0]] * self._memory[params[1]]
 
-                self.cursor += 4
+                self._cursor += 4
             elif opcode is Opcode.INPUT:
                 if self.inputs:
-                    self.program[params[0]] = self.inputs.pop(0)
+                    self._memory[params[0]] = self.inputs.pop(0)
                 else:
                     return False
 
-                self.cursor += 2
+                self._cursor += 2
             elif opcode is Opcode.OUTPUT:
-                self.outputs.append(self.program[params[0]])
+                self.outputs.append(self._memory[params[0]])
 
-                self.cursor += 2
+                self._cursor += 2
             elif opcode is Opcode.JUMP_IF:
-                if self.program[params[0]]:
-                    self.cursor = self.program[params[1]]
+                if self._memory[params[0]]:
+                    self._cursor = self._memory[params[1]]
                 else:
-                    self.cursor += 3
+                    self._cursor += 3
             elif opcode is Opcode.JUMP_NOT_IF:
-                if not self.program[params[0]]:
-                    self.cursor = self.program[params[1]]
+                if not self._memory[params[0]]:
+                    self._cursor = self._memory[params[1]]
                 else:
-                    self.cursor += 3
+                    self._cursor += 3
             elif opcode is Opcode.LESS_THAN:
-                self.program[params[2]] = 1 if self.program[params[0]] < self.program[params[1]] else 0
+                self._memory[params[2]] = 1 if self._memory[params[0]] < self._memory[params[1]] else 0
 
-                self.cursor += 4
+                self._cursor += 4
             elif opcode is Opcode.EQUAL_TO:
-                self.program[params[2]] = 1 if self.program[params[0]] == self.program[params[1]] else 0
+                self._memory[params[2]] = 1 if self._memory[params[0]] == self._memory[params[1]] else 0
 
-                self.cursor += 4
+                self._cursor += 4
             elif opcode is Opcode.ADJUST_RELATIVE_BASE:
-                self.relative_base += self.program[params[0]]
+                self._relative_base += self._memory[params[0]]
 
-                self.cursor += 2
+                self._cursor += 2
             else:
                 print(f"missing opcode: {opcode}")
                 raise MissingOpcode
