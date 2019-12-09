@@ -6,6 +6,11 @@ import itertools
 class InvalidParameterMode(Exception):
     pass
 
+
+class MissingOpcode(Exception):
+    pass
+
+
 class Opcode(Enum):
     ADD = 1
     MULTIPY = 2
@@ -61,7 +66,7 @@ def lookup_values(memory, parameter_modes, cursor, relative_base):
 
 class IntCode():
     def __init__(self, program):
-        self.program = program[:]
+        self.program = program[:] + [0] * 1000
         self.cursor = 0
         self.inputs = []
         self.outputs = []
@@ -114,8 +119,13 @@ class IntCode():
                 self.program[params[2]] = 1 if self.program[params[0]] == self.program[params[1]] else 0
 
                 self.cursor += 4
+            elif opcode is Opcode.ADJUST_RELATIVE_BASE:
+                self.relative_base += self.program[params[0]]
+
+                self.cursor += 2
             else:
                 print(f"missing opcode: {opcode}")
+                raise MissingOpcode
 
 
 def run_program(program_string):
@@ -123,7 +133,7 @@ def run_program(program_string):
     computer = IntCode(program)
     computer.run()
 
-    return computer.outputs.pop(0)
+    return computer.outputs
 
 
 def main():
