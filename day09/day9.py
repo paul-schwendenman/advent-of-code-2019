@@ -2,7 +2,7 @@ import sys
 from enum import Enum
 
 
-class InvalidParameterMode(Exception):
+class MissingParameterMode(Exception):
     pass
 
 
@@ -54,7 +54,7 @@ def lookup_value(memory, mode, position, relative_base):
         elif mode == ParameterMode.RELATIVE:
             return relative_base + memory[position]
         else:
-            raise InvalidParameterMode
+            raise MissingParameterMode
 
     except IndexError:
         pass
