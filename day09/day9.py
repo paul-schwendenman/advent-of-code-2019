@@ -3,6 +3,9 @@ from enum import Enum
 import itertools
 
 
+class InvalidParameterMode(Exception):
+    pass
+
 class Opcode(Enum):
     ADD = 1
     MULTIPY = 2
@@ -12,6 +15,7 @@ class Opcode(Enum):
     JUMP_NOT_IF = 6
     LESS_THAN = 7
     EQUAL_TO = 8
+    ADJUST_RELATIVE_BASE = 9
     HALT = 99
 
 
@@ -31,20 +35,26 @@ def split_instruction(instruction):
     return opcode, parameter_modes
 
 
-def lookup_value(memory, mode, position):
+def lookup_value(memory, mode, position, relative_base):
     try:
         if mode == '0':
             return memory[position]
         elif mode == '1':
             return position
+        elif mode == '2':
+            eprint('help')
+            return relative_base + memory[position]
+        else:
+            raise InvalidParameterMode
+
     except IndexError:
         pass
 
 
-def lookup_values(memory, parameter_modes, cursor):
-    param_1 = lookup_value(memory, parameter_modes[0], cursor + 1)
-    param_2 = lookup_value(memory, parameter_modes[1], cursor + 2)
-    param_3 = lookup_value(memory, parameter_modes[2], cursor + 3)
+def lookup_values(memory, parameter_modes, cursor, relative_base):
+    param_1 = lookup_value(memory, parameter_modes[0], cursor + 1, relative_base)
+    param_2 = lookup_value(memory, parameter_modes[1], cursor + 2, relative_base)
+    param_3 = lookup_value(memory, parameter_modes[2], cursor + 3, relative_base)
 
     return param_1, param_2, param_3
 
@@ -55,13 +65,15 @@ class IntCode():
         self.cursor = 0
         self.inputs = []
         self.outputs = []
+        self.relative_base = 0
 
     def run(self):
 
         while True:
             opcode, parameter_modes = split_instruction(self.program[self.cursor])
 
-            params = lookup_values(self.program, parameter_modes, self.cursor)
+            params = lookup_values(self.program, parameter_modes, self.cursor, self.relative_base)
+            eprint(f'{opcode} {params} {parameter_modes}')
 
             if opcode is Opcode.HALT:
                 return True
@@ -106,13 +118,20 @@ class IntCode():
                 print(f"missing opcode: {opcode}")
 
 
+def run_program(program_string):
+    program = list(parse_program(program_string))
+    computer = IntCode(program)
+    computer.run()
+
+    return computer.outputs.pop(0)
+
+
 def main():
     with open('../day09/input') as input:
         program_string = input.readlines()[0]
 
-    program = list(parse_program(program_string))
-    computer = IntCode(program)
-    return computer.run()
+    return run_program(program_string)
+
 
 
 if __name__ == "__main__":
