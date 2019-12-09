@@ -6,10 +6,18 @@ class Image():
     def __init__(self, width, height, data=None):
         self.width = width
         self.height = height
+        self.layers = []
         if data:
             self.data = data
+            self.add_layer(data)
         else:
             self.data = ['2'] * (width * height)
+
+    def add_layer(self, layer):
+        self.layers.append(layer)
+        for index, pixel in enumerate(layer):
+            if self.data[index] == '2':
+                self.data[index] = pixel
 
     def show(self):
         image_rows = [self.data[i:i+self.width] for i in range(0, len(self.data), self.width)]
@@ -52,24 +60,20 @@ def main():
 
 
 def main2():
+    width, height = 25, 6
     with open('input') as file:
         data = list(file.read())[:-1]
 
-    dimensions = 25 * 6
+    dimensions = width * height
 
     layers = [data[i:i+dimensions] for i in range(0, len(data), dimensions)]
 
-    image = ['2'] * 150
+    image = Image(width=25, height=6)
 
     for layer in layers:
-        for index, pixel in enumerate(layer):
-            if image[index] == '2':
-                image[index] = pixel
-            else:
-                pass
+        image.add_layer(layer)
 
-    i = Image(data=image, width=25, height=6)
-    i.show()
+    image.show()
 
 
 if __name__ == "__main__":
