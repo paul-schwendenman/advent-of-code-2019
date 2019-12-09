@@ -2,6 +2,27 @@
 from collections import Counter
 
 
+class Image():
+    def __init__(self, width, height, data=None):
+        self.width = width
+        self.height = height
+        if data:
+            self.data = data
+        else:
+            self.data = ['2'] * (width * height)
+
+    def show(self):
+        image_rows = [self.data[i:i+self.width] for i in range(0, len(self.data), self.width)]
+
+        for row in image_rows:
+            for pixel in row:
+                if pixel == '0':
+                    print(' ', end='')
+                else:
+                    print('#', end='')
+            print('')
+
+
 def main():
     with open('input') as file:
         data = list(file.read())[:-1]
@@ -47,15 +68,8 @@ def main2():
             else:
                 pass
 
-    image_rows = [image[i:i+25] for i in range(0, len(image), 25)]
-
-    for row in image_rows:
-        for pixel in row:
-            if pixel == '0':
-                print(' ', end='')
-            else:
-                print('#', end='')
-        print('')
+    i = Image(data=image, width=25, height=6)
+    i.show()
 
 
 if __name__ == "__main__":
