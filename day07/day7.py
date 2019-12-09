@@ -137,7 +137,7 @@ def run_program(program, phases):
 
 
 def main(phases):
-    with open('input') as input:
+    with open('day07/input') as input:
         program_string = input.readlines()[0]
 
     program = list(parse_program(program_string))
