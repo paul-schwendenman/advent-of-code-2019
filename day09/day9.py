@@ -128,9 +128,10 @@ class IntCode():
                 raise MissingOpcode
 
 
-def run_program(program_string):
+def run_program(program_string, input=0):
     program = list(parse_program(program_string))
     computer = IntCode(program)
+    computer.inputs.append(input)
     computer.run()
 
     return computer.outputs
@@ -140,7 +141,7 @@ def main():
     with open('../day09/input') as input:
         program_string = input.readlines()[0]
 
-    return run_program(program_string)
+    return run_program(program_string, input=1)
 
 
 
