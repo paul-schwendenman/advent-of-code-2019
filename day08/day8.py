@@ -13,13 +13,12 @@ class Image():
         self.width = width
         self.height = height
         self.layers = []
+        self.data = [Pixel.TRANSPARENT] * (width * height)
         if data:
-            self.data = data
             self.add_layer(data)
-        else:
-            self.data = [Pixel.TRANSPARENT] * (width * height)
 
     def add_layer(self, layer):
+        layer = [Pixel(pixel) for pixel in layer]
         self.layers.append(layer)
         for index, pixel in enumerate(layer):
             if self.data[index] == Pixel.TRANSPARENT:
@@ -70,7 +69,8 @@ def main():
 def main2():
     width, height = 25, 6
     with open('input') as file:
-        data = [Pixel(pixel) for pixel in (file.read()) if pixel != '\n']
+        # data = [Pixel(pixel) for pixel in (file.read()) if pixel != '\n']
+        data = list(file.read())[:-1]
 
     dimensions = width * height
 
