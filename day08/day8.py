@@ -1,5 +1,7 @@
 
 from collections import Counter
+
+
 def main():
     with open('input') as file:
         data = list(file.read())[:-1]

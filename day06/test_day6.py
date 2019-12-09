@@ -10,7 +10,7 @@ def test_calc_orbits2():
 
 
 def test_calc_hops():
-    assert calc_hops(['COM)B', 'B)C', 'C)D', 'D)E', 'E)F', 'B)G', 'G)H', 'D)I', 'E)J', 'J)K', 'K)L', 'K)YOU', 'I)SAN']) == 4
+    assert calc_hops(['COM)B', 'B)C', 'C)D', 'D)E', 'E)F', 'B)G', 'G)H', 'D)I', 'E)J', 'J)K', 'K)L', 'K)YOU', 'I)SAN']) == 4  # noqa: E501
 
 
 def test_main():

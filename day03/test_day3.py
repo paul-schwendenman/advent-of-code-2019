@@ -33,7 +33,7 @@ def test_line_left_coords():
 
 
 def test_complicated_coords():
-    assert list(convert_instructions_to_path(["U3", "R3",  "D2", "L1"])) == [(0, 1), (0, 2), (0, 3), (1, 3), (2, 3), (3, 3), (3, 2), (3, 1), (2, 1)]
+    assert list(convert_instructions_to_path(["U3", "R3",  "D2", "L1"])) == [(0, 1), (0, 2), (0, 3), (1, 3), (2, 3), (3, 3), (3, 2), (3, 1), (2, 1)]  # noqa: E501
 
 
 def test_find_intersections():
