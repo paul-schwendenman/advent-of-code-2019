@@ -1,8 +1,12 @@
 from day9 import main, run_program
 
 
-# def test_main():
-#     assert main() is None
+def test_main():
+    assert main(1) == [3507134798]
+
+
+def test_mai2():
+    assert main(2) == [84513]
 
 
 def test_returns_self():

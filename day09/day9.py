@@ -1,6 +1,5 @@
 import sys
 from enum import Enum
-import itertools
 
 
 class InvalidParameterMode(Exception):
@@ -47,7 +46,6 @@ def lookup_value(memory, mode, position, relative_base):
         elif mode == '1':
             return position
         elif mode == '2':
-            eprint('help')
             return relative_base + memory[position]
         else:
             raise InvalidParameterMode
@@ -78,7 +76,7 @@ class IntCode():
             opcode, parameter_modes = split_instruction(self.program[self.cursor])
 
             params = lookup_values(self.program, parameter_modes, self.cursor, self.relative_base)
-            eprint(f'{opcode} {params} {parameter_modes}')
+            # eprint(f'{opcode} {params} {parameter_modes}')
 
             if opcode is Opcode.HALT:
                 return True
@@ -128,22 +126,22 @@ class IntCode():
                 raise MissingOpcode
 
 
-def run_program(program_string, input=0):
+def run_program(program_string, input_value=0):
     program = list(parse_program(program_string))
     computer = IntCode(program)
-    computer.inputs.append(input)
+    computer.inputs.append(input_value)
     computer.run()
 
     return computer.outputs
 
 
-def main():
+def main(input_value):
     with open('../day09/input') as input:
         program_string = input.readlines()[0]
 
-    return run_program(program_string, input=1)
-
+    return run_program(program_string, input_value=input_value)
 
 
 if __name__ == "__main__":
-    print(main())
+    print(main(1))
+    print(main(2))
