@@ -116,6 +116,10 @@ def calc_magnitude(point_1: Point, point_2: Point):
     return math.hypot(dx, dy)
 
 
+def combine_point(point: Point):
+    return point.x * 100 + point.y
+
+
 def find_asteroids3(grid):
     asteroids = []
     for y_pos, row in enumerate(grid):
@@ -126,12 +130,26 @@ def find_asteroids3(grid):
     center = Point(13, 17)
     asteroids.remove(center)
 
+    mapper = defaultdict(list)
+
     for asteroid in asteroids:
-        pass
+        magnitude = calc_magnitude(center, asteroid)
+        angle = calc_angle(center, asteroid)
+
+        print(f'mag {magnitude} angle {angle}')
+        mapper[angle].append((magnitude, asteroid))
 
 
+    angles = sorted(set(calc_angle(center, asteroid) for asteroid in asteroids))
+    angle_200 = angles[199]
+    print(angle_200)
+    print(mapper[angle_200])
 
-    return asteroids[200]
+    winner = sorted(mapper[angle_200])[0][1]
+
+    print(winner)
+
+    return combine_point(winner)
 
 
 def main(filename="input"):
