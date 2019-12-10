@@ -1,4 +1,4 @@
-from day10 import main, Point, calc_angle, Point
+from day10 import main, Point, calc_angle, Point, calc_magnitude
 
 
 # def test_main_1():
@@ -23,3 +23,11 @@ def test_calc_angle_horizontal():
 
 def test_calc_angle_downward_horizontal():
     assert calc_angle(Point(5, 5), Point(0, 5)) == 270
+
+
+def test_calc_magnitude_axis():
+    assert calc_magnitude(Point(5, 5), Point(0, 5)) == 5
+
+
+def test_calc_magnitude_60_degrees():
+    assert calc_magnitude(Point(0, 0), Point(3, 4)) == 5
