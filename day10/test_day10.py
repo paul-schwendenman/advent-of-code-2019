@@ -10,4 +10,16 @@ from day10 import main, Point, calc_angle, Point
 #     assert main('test2.in') == (Point(5, 8), 33)
 
 def test_calc_angle_vertical():
-    assert calc_angle(Point(0, 0), Point(0, -1)) == 0
+    assert calc_angle(Point(5, 5), Point(5, 0)) == 0
+
+
+def test_calc_angle_downward_vertical():
+    assert calc_angle(Point(5, 5), Point(5, 10)) == 180
+
+
+def test_calc_angle_horizontal():
+    assert calc_angle(Point(5, 5), Point(10, 5)) == 90
+
+
+def test_calc_angle_downward_horizontal():
+    assert calc_angle(Point(5, 5), Point(0, 5)) == 270

@@ -106,7 +106,7 @@ Point = namedtuple('Point', 'x y')
 def calc_angle(point_1: Point, point_2: Point):
     dx = point_2.x - point_1.x
     dy = point_2.y - point_1.y
-    return math.degrees(math.atan2(dx, -dy))
+    return math.degrees(math.atan2(dx, -dy)) % 360
 
 
 def find_asteroids3(grid):
