@@ -180,7 +180,7 @@ def move_robot(location: Point, facing: Direction, clockwise: int) -> Tuple[Poin
     return location, facing
 
 
-def main():
+def main(initial_color=0):
     with open('../day11/input') as input:
         program_string = input.readlines()[0]
 
@@ -191,6 +191,7 @@ def main():
     halted = False
     grid = defaultdict(lambda: 0)
     location = Point(0, 0)
+    grid[location] = initial_color
     facing = Direction.UP
     while not halted:
         computer.inputs.append(grid[location])
@@ -202,10 +203,24 @@ def main():
         grid[location] = color
         location, facing = move_robot(location, facing, direction)
 
+    print_grid(grid)
+
     return len(grid.keys())
 
 
+def print_grid(grid):
+    grid = grid.copy()
+    min_x = min(point.x for point in grid.keys())
+    max_x = max(point.x for point in grid.keys())
+    min_y = min(point.y for point in grid.keys())
+    max_y = max(point.y for point in grid.keys())
+
+    for pos_y in range(min_y, max_y + 1):
+        for pos_x in range(min_x, max_x + 1):
+            print('#' if grid[Point(pos_x, pos_y)] else ' ', end='')
+        print('')
 
 
 if __name__ == "__main__":
-    print(main())
+    print(main(0))
+    print(main(1))
