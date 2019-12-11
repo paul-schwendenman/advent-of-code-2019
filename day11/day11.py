@@ -153,18 +153,6 @@ class IntCode():
                 raise MissingOpcode
 
 
-def run_program(program_string, input_value=0):
-    computer.inputs.append(input_value)
-    halted = computer.run()
-
-    return halted, computer.outputs
-
-
-class PaintingRobot():
-    def __init__(self):
-        pass
-
-
 def move_robot(location: Point, facing: Direction, clockwise: int) -> Tuple[Point, Direction]:
     facing = facing.rotate(1 if clockwise else -1)
 
@@ -187,7 +175,6 @@ def main(initial_color=0):
     program = list(parse_program(program_string))
     computer = IntCode(program)
 
-    # return run_program(program_string, input_value=input_value)
     halted = False
     grid = defaultdict(lambda: 0)
     location = Point(0, 0)
