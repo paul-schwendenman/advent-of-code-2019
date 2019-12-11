@@ -47,6 +47,12 @@ def combine_point(point: Point):
     return point.x * 100 + point.y
 
 
+def part1(grid):
+    asteroids = list(find_asteroids(grid))
+
+    return max(len(calc_angles(asteroid, asteroids)) for asteroid in asteroids)
+
+
 def part2(grid):
     asteroids = list(find_asteroids(grid))
 
@@ -67,8 +73,11 @@ def main(filename="input"):
     with open(filename) as input_data:
         grid = input_data.read().splitlines()
 
-    return part2(grid)
+    part1_solution = part1(grid)
+    print(f'part 1 solution: {part1_solution}')
+    part2_solution = part2(grid)
+    print(f'part 2 solution: {part2_solution}')
 
 
 if __name__ == "__main__":
-    print(main())
+    main()
