@@ -1,6 +1,7 @@
 from collections import namedtuple, OrderedDict, defaultdict
 import math
 from enum import Enum
+from typing import Iterator, Sequence, DefaultDict
 
 
 Point = namedtuple('Point', 'x y')
@@ -19,29 +20,42 @@ def calc_magnitude(point_1: Point, point_2: Point):
     return math.hypot(dx, dy)
 
 
+def find_asteroids(grid) -> Iterator[Point]:
+    for y_pos, row in enumerate(grid):
+        for x_pos, asteroid in enumerate(row):
+            if asteroid == '#':
+                yield Point(x_pos, y_pos)
+
+
+def calc_angles(focal_point: Point, asteroids: Sequence[Point]):
+    return set(calc_angle(focal_point, asteroid) for asteroid in asteroids)
+
+
+def group_by_angle(focal_point: Point, asteroids: Sequence[Point]):
+    mapper: DefaultDict = defaultdict(list)
+
+    for asteroid in asteroids:
+        magnitude = calc_magnitude(focal_point, asteroid)
+        angle = calc_angle(focal_point, asteroid)
+
+        mapper[angle].append((magnitude, asteroid))
+
+    return mapper
+
+
 def combine_point(point: Point):
     return point.x * 100 + point.y
 
 
 def part2(grid):
-    asteroids = []
-    for y_pos, row in enumerate(grid):
-        for x_pos, asteroid in enumerate(row):
-            if asteroid == '#':
-                asteroids.append(Point(x_pos, y_pos))
+    asteroids = list(find_asteroids(grid))
 
     center = Point(13, 17)
     asteroids.remove(center)
 
-    mapper = defaultdict(list)
+    mapper = group_by_angle(center, asteroids)
 
-    for asteroid in asteroids:
-        magnitude = calc_magnitude(center, asteroid)
-        angle = calc_angle(center, asteroid)
-
-        mapper[angle].append((magnitude, asteroid))
-
-    angles = sorted(set(calc_angle(center, asteroid) for asteroid in asteroids))
+    angles = sorted(calc_angles(center, asteroids))
     angle_200 = angles[199]
 
     winner = sorted(mapper[angle_200])[0][1]
@@ -54,8 +68,6 @@ def main(filename="input"):
         grid = input_data.read().splitlines()
 
     return part2(grid)
-
-    print(grid)
 
 
 if __name__ == "__main__":

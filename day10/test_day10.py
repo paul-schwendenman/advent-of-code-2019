@@ -1,4 +1,4 @@
-from day10 import main, Point, calc_angle, Point, calc_magnitude
+from day10 import calc_angle, Point, calc_magnitude
 
 
 # def test_main_1():
