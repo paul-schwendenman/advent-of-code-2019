@@ -109,42 +109,42 @@ def least_common_multiple(x, y):
 
 
 def main2():
-    moons = [
-        Moon(-8, -10, 0, 'Io'),
-        Moon(5, 5, 10, 'Eu'),
-        Moon(2, -7, 3, 'Ga'),
-        Moon(9, -8, -3, 'Ca'),
-    ]
+    # moons = [
+    #     Moon(-8, -10, 0, 'Io'),
+    #     Moon(5, 5, 10, 'Eu'),
+    #     Moon(2, -7, 3, 'Ga'),
+    #     Moon(9, -8, -3, 'Ca'),
+    # ]
+    # initial_state = [
+    #     Moon(-8, -10, 0, 'Io'),
+    #     Moon(5, 5, 10, 'Eu'),
+    #     Moon(2, -7, 3, 'Ga'),
+    #     Moon(9, -8, -3, 'Ca'),
+    # ]
+    # moons = [
+    #     Moon(-1, 0, 2, 'Io'),
+    #     Moon(2, -10, -7, 'Eu'),
+    #     Moon(4, -8, 8, 'Ga'),
+    #     Moon(3, 5, -1, 'Ca'),
+    # ]
+    # initial_state = [
+    #     Moon(-1, 0, 2, 'Io'),
+    #     Moon(2, -10, -7, 'Eu'),
+    #     Moon(4, -8, 8, 'Ga'),
+    #     Moon(3, 5, -1, 'Ca'),
+    # ]
     initial_state = [
-        Moon(-8, -10, 0, 'Io'),
-        Moon(5, 5, 10, 'Eu'),
-        Moon(2, -7, 3, 'Ga'),
-        Moon(9, -8, -3, 'Ca'),
+        Moon(4, 1, 1),
+        Moon(11, -18, -1),
+        Moon(-2, -10, -4),
+        Moon(-7, -2, 14),
     ]
-    # moons = [
-    #     Moon(-1, 0, 2, 'Io'),
-    #     Moon(2, -10, -7, 'Eu'),
-    #     Moon(4, -8, 8, 'Ga'),
-    #     Moon(3, 5, -1, 'Ca'),
-    # ]
-    # initial_state = [
-    #     Moon(-1, 0, 2, 'Io'),
-    #     Moon(2, -10, -7, 'Eu'),
-    #     Moon(4, -8, 8, 'Ga'),
-    #     Moon(3, 5, -1, 'Ca'),
-    # ]
-    # initial_state = [
-    #     Moon(4, 1, 1),
-    #     Moon(11, -18, -1),
-    #     Moon(-2, -10, -4),
-    #     Moon(-7, -2, 14),
-    # ]
-    # moons = [
-    #     Moon(4, 1, 1),
-    #     Moon(11, -18, -1),
-    #     Moon(-2, -10, -4),
-    #     Moon(-7, -2, 14),
-    # ]
+    moons = [
+        Moon(4, 1, 1),
+        Moon(11, -18, -1),
+        Moon(-2, -10, -4),
+        Moon(-7, -2, 14),
+    ]
 
     find_x, find_y, find_z = None, None, None
 
