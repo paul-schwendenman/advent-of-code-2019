@@ -85,22 +85,36 @@ def main():
 
 def main2():
     moons = [
-        Moon(-1, 0, 2, 'Io'),
-        Moon(2, -10, -7, 'Eu'),
-        Moon(4, -8, 8, 'Ga'),
-        Moon(3, 5, -1, 'Ca'),
+        Moon(-8, -10, 0, 'Io'),
+        Moon(5, 5, 10, 'Eu'),
+        Moon(2, -7, 3, 'Ga'),
+        Moon(9, -8, -3, 'Ca'),
     ]
     initial_state = [
-        Moon(-1, 0, 2, 'Io'),
-        Moon(2, -10, -7, 'Eu'),
-        Moon(4, -8, 8, 'Ga'),
-        Moon(3, 5, -1, 'Ca'),
+        Moon(-8, -10, 0, 'Io'),
+        Moon(5, 5, 10, 'Eu'),
+        Moon(2, -7, 3, 'Ga'),
+        Moon(9, -8, -3, 'Ca'),
     ]
+    # moons = [
+    #     Moon(-1, 0, 2, 'Io'),
+    #     Moon(2, -10, -7, 'Eu'),
+    #     Moon(4, -8, 8, 'Ga'),
+    #     Moon(3, 5, -1, 'Ca'),
+    # ]
+    # initial_state = [
+    #     Moon(-1, 0, 2, 'Io'),
+    #     Moon(2, -10, -7, 'Eu'),
+    #     Moon(4, -8, 8, 'Ga'),
+    #     Moon(3, 5, -1, 'Ca'),
+    # ]
+
 
     # print(list(moon == i_moon for moon, i_moon in zip(moons, initial_state)))
     # print(all(moon == i_moon for moon, i_moon in zip(moons, initial_state)))
 
-    for count in itertools.count(1):
+    for count in range(1000000):
+    # for count in itertools.count(1):
         moons = step(moons)
         if all(moon == i_moon for moon, i_moon in zip(moons, initial_state)):
             break
