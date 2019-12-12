@@ -13,12 +13,13 @@ class Direction(IntEnum):
     DOWN = 2
     LEFT = 3
 
-    def rotate(self, direction):
-        return Direction((self + direction) % 4)
+    def rotate(self, clockwise: int):
+        offset = 1 if clockwise else -1
+        return Direction((self + offset) % 4)
 
 
 def move_robot(location: Point, facing: Direction, clockwise: int) -> Tuple[Point, Direction]:
-    facing = facing.rotate(1 if clockwise else -1)
+    facing = facing.rotate(clockwise)
 
     if facing == Direction.UP:
         location = Point(location.x, location.y - 1)
