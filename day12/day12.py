@@ -5,7 +5,7 @@ import itertools
 # Moon = namedtuple('Moon', 'x y z')
 
 class Moon():
-    def __init__(self, x, y, z, name):
+    def __init__(self, x, y, z, name=None):
         self.name = name
         self.x = x
         self.y = y
@@ -60,20 +60,20 @@ def step(moons):
 
 
 def main():
-    # moons = [
-    #     Moon(4, 1, 1),
-    #     Moon(11, -18, -1),
-    #     Moon(-2, -10, -4),
-    #     Moon(-7, -2, 14),
-    # ]
     moons = [
-        Moon(-1, 0, 2, 'Io'),
-        Moon(2, -10, -7, 'Eu'),
-        Moon(4, -8, 8, 'Ga'),
-        Moon(3, 5, -1, 'Ca'),
+        Moon(4, 1, 1),
+        Moon(11, -18, -1),
+        Moon(-2, -10, -4),
+        Moon(-7, -2, 14),
     ]
+    # moons = [
+    #     Moon(-1, 0, 2, 'Io'),
+    #     Moon(2, -10, -7, 'Eu'),
+    #     Moon(4, -8, 8, 'Ga'),
+    #     Moon(3, 5, -1, 'Ca'),
+    # ]
 
-    for _ in range(10):
+    for _ in range(1000):
         moons = step(moons)
 
     print(sum(moon.total_energy() for moon in moons))
