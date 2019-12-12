@@ -71,11 +71,8 @@ def main():
 
     print("step0")
     [print(moon) for moon in moons]
-    moons = step(moons)
-    print("step1")
-    [print(moon) for moon in moons]
-    moons = step(moons)
-    print("step2")
+    for _ in range(10):
+        moons = step(moons)
     [print(moon) for moon in moons]
 
 
