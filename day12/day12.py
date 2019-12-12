@@ -41,6 +41,15 @@ class Moon():
         else:
             return 0
 
+    def potential_energry(self):
+        return sum(abs(item) for item in (self.x, self.y, self.z))
+
+    def kinetic_energry(self):
+        return sum(abs(item) for item in (self.dx, self.dy, self.dz))
+
+    def total_energy(self):
+        return self.potential_energry() * self.kinetic_energry()
+
 
 def step(moons):
     for moon1, moon2 in itertools.permutations(moons, 2):
@@ -74,6 +83,9 @@ def main():
     for _ in range(10):
         moons = step(moons)
     [print(moon) for moon in moons]
+    [print(moon.potential_energry()) for moon in moons]
+    [print(moon.kinetic_energry()) for moon in moons]
+    [print(moon.total_energy()) for moon in moons]
 
 
 if __name__ == "__main__":
