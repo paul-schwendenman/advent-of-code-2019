@@ -1,5 +1,7 @@
 from collections import namedtuple
 import itertools
+from math import gcd
+from functools import reduce
 
 
 # Moon = namedtuple('Moon', 'x y z')
@@ -22,6 +24,15 @@ class Moon():
         positions = (self.x == other.x) and (self.y == other.y) and (self.z == other.z)
         velocities = (self.dx == other.dx) and (self.dy == other.dy) and (self.dz == other.dz)
         return positions and velocities
+
+    def match_x(self, other):
+        return (self.x == other.x) and (self.dx == other.dx)
+
+    def match_y(self, other):
+        return (self.y == other.y) and (self.dy == other.dy)
+
+    def match_z(self, other):
+        return (self.z == other.z) and (self.dz == other.dz)
 
     def __add__(self, other):
         self.dx += self.calc_velocity(self.x, other.x)
@@ -83,6 +94,20 @@ def main():
 
     print(sum(moon.total_energy() for moon in moons))
 
+
+def lcm(*vals):
+    print(vals)
+    lcm = vals[0]
+    for next_val in vals[1:]:
+        lcm = lcm * next_val / gcd(lcm, next_val)
+
+    return lcm
+
+
+def least_common_multiple(x, y):
+    return (x * y) // gcd(x, y)
+
+
 def main2():
     moons = [
         Moon(-8, -10, 0, 'Io'),
@@ -108,18 +133,36 @@ def main2():
     #     Moon(4, -8, 8, 'Ga'),
     #     Moon(3, 5, -1, 'Ca'),
     # ]
+    # initial_state = [
+    #     Moon(4, 1, 1),
+    #     Moon(11, -18, -1),
+    #     Moon(-2, -10, -4),
+    #     Moon(-7, -2, 14),
+    # ]
+    # moons = [
+    #     Moon(4, 1, 1),
+    #     Moon(11, -18, -1),
+    #     Moon(-2, -10, -4),
+    #     Moon(-7, -2, 14),
+    # ]
 
+    find_x, find_y, find_z = None, None, None
 
-    # print(list(moon == i_moon for moon, i_moon in zip(moons, initial_state)))
-    # print(all(moon == i_moon for moon, i_moon in zip(moons, initial_state)))
-
-    for count in range(1000000):
-    # for count in itertools.count(1):
+    # for count in range(1000000):
+    for count in itertools.count(1):
         moons = step(moons)
-        if all(moon == i_moon for moon, i_moon in zip(moons, initial_state)):
+        if all(moon.match_x(i_moon) for moon, i_moon in zip(moons, initial_state)):
+            find_x = count
+        if all(moon.match_y(i_moon) for moon, i_moon in zip(moons, initial_state)):
+            find_y = count
+        if all(moon.match_z(i_moon) for moon, i_moon in zip(moons, initial_state)):
+            find_z = count
+        if find_x and find_y and find_z:
             break
 
-    print(count)
+    val = reduce(least_common_multiple, (find_x, find_y, find_z))
+
+    print(val)
 
 
 
