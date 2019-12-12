@@ -18,6 +18,11 @@ class Moon():
     def __str__(self):
         return f'{self.name:2}: pos=<x={self.x:3}, y={self.y:3}, z={self.z:3}>, vel=<x={self.dx:3}, y={self.dy:3}, z={self.dz:3}>'
 
+    def __eq__(self, other):
+        positions = (self.x == other.x) and (self.y == other.y) and (self.z == other.z)
+        velocities = (self.dx == other.dx) and (self.dy == other.dy) and (self.dz == other.dz)
+        return positions and velocities
+
     def __add__(self, other):
         self.dx += self.calc_velocity(self.x, other.x)
         self.dy += self.calc_velocity(self.y, other.y)
@@ -78,6 +83,31 @@ def main():
 
     print(sum(moon.total_energy() for moon in moons))
 
+def main2():
+    moons = [
+        Moon(-1, 0, 2, 'Io'),
+        Moon(2, -10, -7, 'Eu'),
+        Moon(4, -8, 8, 'Ga'),
+        Moon(3, 5, -1, 'Ca'),
+    ]
+    initial_state = [
+        Moon(-1, 0, 2, 'Io'),
+        Moon(2, -10, -7, 'Eu'),
+        Moon(4, -8, 8, 'Ga'),
+        Moon(3, 5, -1, 'Ca'),
+    ]
+
+    # print(list(moon == i_moon for moon, i_moon in zip(moons, initial_state)))
+    # print(all(moon == i_moon for moon, i_moon in zip(moons, initial_state)))
+
+    for count in itertools.count(1):
+        moons = step(moons)
+        if all(moon == i_moon for moon, i_moon in zip(moons, initial_state)):
+            break
+
+    print(count)
+
+
 
 if __name__ == "__main__":
-    main()
+    main2()
