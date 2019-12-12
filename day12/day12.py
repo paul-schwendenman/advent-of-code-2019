@@ -19,11 +19,9 @@ class Moon():
         return f'{self.name:2}: pos=<x={self.x:3}, y={self.y:3}, z={self.z:3}>, vel=<x={self.dx:3}, y={self.dy:3}, z={self.dz:3}>'
 
     def __add__(self, other):
-        print(self.dx, self.dy, self.dz)
         self.dx += self.calc_velocity(self.x, other.x)
         self.dy += self.calc_velocity(self.y, other.y)
         self.dz += self.calc_velocity(self.z, other.z)
-        print(self.dx, self.dy, self.dz)
 
         return self
 
@@ -53,10 +51,7 @@ class Moon():
 
 def step(moons):
     for moon1, moon2 in itertools.permutations(moons, 2):
-        print(moon1, moon2)
         moon1 += moon2
-        print(moon1, moon2)
-        print('---------------')
 
     for moon in moons:
         moon.move()
@@ -78,14 +73,10 @@ def main():
         Moon(3, 5, -1, 'Ca'),
     ]
 
-    print("step0")
-    [print(moon) for moon in moons]
     for _ in range(10):
         moons = step(moons)
-    [print(moon) for moon in moons]
-    [print(moon.potential_energry()) for moon in moons]
-    [print(moon.kinetic_energry()) for moon in moons]
-    [print(moon.total_energy()) for moon in moons]
+
+    print(sum(moon.total_energy() for moon in moons))
 
 
 if __name__ == "__main__":
