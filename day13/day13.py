@@ -36,19 +36,15 @@ def main2(initial_color=0):
     with open('../day13/input') as input_file:
         program_string = input_file.readlines()[0]
 
-    user_inputs = []
-
-
     program = list(parse_program(program_string))
     program[0] = 2
     computer = IntCode(program, default_memory=8000)
 
-    computer.inputs.extend([0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, -1, -1, 0, 1, -1, -1, -1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+    computer.inputs.extend([0])
 
     halted = False
     grid = defaultdict(lambda: 0)
     while not halted:
-        # computer.inputs.append(grid[location])
         halted = computer.run()
 
         while len(computer.outputs) > 0:
@@ -56,30 +52,25 @@ def main2(initial_color=0):
             y_pos = computer.outputs.pop(0)
             tile_id = computer.outputs.pop(0)
 
+            if tile_id == 3:
+                paddle_x = x_pos
+            elif tile_id == 4:
+                ball_x = x_pos
+
             grid[Point(x_pos, y_pos)] = tile_id
 
         print_grid(grid)
 
-        user_input = get_user_input(user_inputs)
-        user_inputs.append(user_input)
+        if paddle_x > ball_x:
+            user_input = -1
+        elif paddle_x < ball_x:
+            user_input = 1
+        else:
+            user_input = 0
 
         computer.inputs.append(user_input)
 
-    print(user_inputs)
-
     return grid[Point(-1, 0)]
-
-
-def get_user_input(user_inputs):
-    user_input = None
-    while user_input not in (-1, 0, 1):
-        try:
-            user_input = int(input("? "))
-        except ValueError:
-            pass
-        except KeyboardInterrupt:
-            print(user_inputs)
-    return user_input
 
 
 def print_grid(grid):
