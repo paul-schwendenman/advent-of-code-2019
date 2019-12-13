@@ -15,7 +15,6 @@ def main(initial_color=0):
     halted = False
     grid = defaultdict(lambda: 0)
     while not halted:
-        # computer.inputs.append(grid[location])
         halted = computer.run()
 
     while len(computer.outputs) > 0:
@@ -24,8 +23,6 @@ def main(initial_color=0):
         tile_id = computer.outputs.pop(0)
 
         grid[Point(x_pos, y_pos)] = tile_id
-
-    print(grid)
 
     print_grid(grid)
 
@@ -95,4 +92,5 @@ def print_grid(grid):
 
 
 if __name__ == "__main__":
-    print(main2())
+    print(main())
+    # print(main2())
