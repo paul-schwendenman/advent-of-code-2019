@@ -69,10 +69,11 @@ def lookup_values(memory, parameter_modes, cursor, relative_base):
 
 
 class IntCode():
-    def __init__(self, program=None, default_memory=2000):
+    def __init__(self, program=None, default_memory=2000, debug=False):
         self._memory = [0] * default_memory
         self._cursor = 0
         self._relative_base = 0
+        self._debug = debug
 
         if program:
             self.load_program(program)
@@ -88,7 +89,8 @@ class IntCode():
             opcode, parameter_modes = split_instruction(self._memory[self._cursor])
 
             params = lookup_values(self._memory, parameter_modes, self._cursor, self._relative_base)
-            # eprint(f'{opcode} {params} {parameter_modes}')
+            if self._debug:
+                eprint(f'{opcode} {params} {parameter_modes}')
 
             if opcode is Opcode.HALT:
                 return True
