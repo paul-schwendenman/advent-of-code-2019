@@ -1,4 +1,3 @@
-from collections import namedtuple
 import itertools
 from math import gcd
 from functools import reduce
@@ -18,7 +17,7 @@ class Moon():
         self.dz = 0
 
     def __str__(self):
-        return f'{self.name:2}: pos=<x={self.x:3}, y={self.y:3}, z={self.z:3}>, vel=<x={self.dx:3}, y={self.dy:3}, z={self.dz:3}>'
+        return f'{self.name:2}: pos=<x={self.x:3}, y={self.y:3}, z={self.z:3}>, vel=<x={self.dx:3}, y={self.dy:3}, z={self.dz:3}>'  # noqa: E501
 
     def __eq__(self, other):
         positions = (self.x == other.x) and (self.y == other.y) and (self.z == other.z)
@@ -163,7 +162,6 @@ def main2():
     val = reduce(least_common_multiple, (find_x, find_y, find_z))
 
     print(val)
-
 
 
 if __name__ == "__main__":
