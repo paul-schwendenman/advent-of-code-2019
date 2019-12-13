@@ -138,3 +138,10 @@ class IntCode():
             else:
                 print(f"missing opcode: {opcode}")
                 raise MissingOpcode
+
+
+def open_program(filename):
+    with open(filename) as input_file:
+        program = parse_program(input_file.read())
+
+    return list(program)

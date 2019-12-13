@@ -1,15 +1,13 @@
-from intcode import IntCode, parse_program
+from intcode import IntCode, parse_program, open_program
 from collections import defaultdict, namedtuple
 
 
 Point = namedtuple('Point', 'x y')
 
 
-def main(initial_color=0):
-    with open('../day13/input') as input:
-        program_string = input.readlines()[0]
+def main():
+    program = open_program('input')
 
-    program = list(parse_program(program_string))
     computer = IntCode(program, default_memory=8000)
 
     halted = False
@@ -29,15 +27,11 @@ def main(initial_color=0):
     return len([item for item in grid.values() if item == 2])
 
 
-def main2(initial_color=0):
-    with open('../day13/input') as input_file:
-        program_string = input_file.readlines()[0]
+def main2():
+    program = open_program('input')
 
-    program = list(parse_program(program_string))
     program[0] = 2
     computer = IntCode(program, default_memory=8000)
-
-    computer.inputs.extend([0])
 
     halted = False
     grid = defaultdict(lambda: 0)
@@ -93,4 +87,4 @@ def print_grid(grid):
 
 if __name__ == "__main__":
     print(main())
-    # print(main2())
+    print(main2())
