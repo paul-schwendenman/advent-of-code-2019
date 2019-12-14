@@ -11,3 +11,7 @@ def test_main_example_2():
 
 def test_main_example_3():
     assert main('example3.in') == 13312
+
+
+def test_main_example_4():
+    assert main('example4.in') == 180697
