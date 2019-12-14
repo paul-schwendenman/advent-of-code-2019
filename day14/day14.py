@@ -1,6 +1,5 @@
 from collections import namedtuple, defaultdict
 import math
-from time import sleep
 
 Formula = namedtuple('Formula', 'product reactants')
 Product = namedtuple('Product', 'quantity name')
@@ -79,5 +78,5 @@ def main(filename="puzzle1.in"):
 
 
 if __name__ == "__main__":
-    # print(main())
-    print(main('example1.in'))
+    print(main())
+    # print(main('example1.in'))
