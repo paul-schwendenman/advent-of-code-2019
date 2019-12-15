@@ -11,6 +11,7 @@ mypy = "*"
 rope = "*"
 
 [packages]
+intcode = {path = "./libs"}
 
 [requires]
 python_version = "3.7"
