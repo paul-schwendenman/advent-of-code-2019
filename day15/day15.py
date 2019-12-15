@@ -73,8 +73,8 @@ def get_next_square(current_location: Point, direction: Direction):
         return Point(current_location.x, current_location.y + 1)
 
 
-def run_move(computer, move, grid, location):
-    oxygen_found = False
+def run_move(computer, move, grid, location, depth):
+    oxygen_found = 1e15
     next_location = get_next_square(location, move)
     if next_location in grid:
         return grid, oxygen_found
@@ -89,20 +89,22 @@ def run_move(computer, move, grid, location):
         # grid[location] = GridSpace.EMPTY
         grid[next_location] = GridSpace.EMPTY
         location = next_location
-        grid, oxygen_found = run_moves(computer, grid, next_location)
+        grid, oxygen_found = run_moves(computer, grid, next_location, depth+1)
     elif output == StatusCode.FOUND:
         grid[next_location] = GridSpace.OXYGEN_SYSTEM
-        # oxygen_found = True
+        oxygen_found = depth
         print('found OXY')
     return grid, oxygen_found
 
 
-def run_moves(computer, grid, location):
+def run_moves(computer, grid, location, depth=0):
+    counts = []
     for direction in [Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST]:
-        grid, oxygen_found = run_move(computer, direction, grid, location)
-        if oxygen_found:
-            break
-    return grid, oxygen_found
+        grid, oxygen_found = run_move(computer, direction, grid, location, depth)
+        # if oxygen_found:
+        #     break
+        counts.append(oxygen_found)
+    return grid, min(counts)
 
 
 def main():
@@ -122,11 +124,12 @@ def main():
         # sleep(2)
         grid, _oxy = run_moves(computer, grid, location)
 
-        print_grid(grid)
+        # print_grid(grid)
         halted = True
         count += 1
 
     print_grid(grid)
+    print(_oxy)
 
 
 def print_grid(grid):
