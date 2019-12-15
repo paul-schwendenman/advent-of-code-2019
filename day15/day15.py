@@ -32,38 +32,6 @@ class GridSpace(IntEnum):
     OXYGEN_SYSTEM = 4
 
 
-def get_neighboors(grid, location):
-    x_pos, y_pos = location
-    return (
-        (x_pos-1, y_pos),
-        (x_pos+1, y_pos),
-        (x_pos, y_pos-1),
-        (x_pos, y_pos+1),
-    )
-
-
-def get_move(grid, location):
-    neighboors = [grid[neighboor] for neighboor in get_neighboors(grid, location)]
-    # print(neighboors)
-
-    if grid[get_next_square(location, Direction.WEST)] is GridSpace.UNKNOWN:
-        return Direction.WEST
-    elif grid[get_next_square(location, Direction.NORTH)] is GridSpace.UNKNOWN:
-        return Direction.NORTH
-    elif grid[get_next_square(location, Direction.EAST)] is GridSpace.UNKNOWN:
-        return Direction.EAST
-    elif grid[get_next_square(location, Direction.SOUTH)] is GridSpace.UNKNOWN:
-        return Direction.SOUTH
-    # if grid[get_next_square(location, Direction.WEST)] is not GridSpace.WALL:
-    #     return Direction.WEST
-    # elif grid[get_next_square(location, Direction.NORTH)] is not GridSpace.WALL:
-    #     return Direction.NORTH
-    # elif grid[get_next_square(location, Direction.EAST)] is not GridSpace.WALL:
-    #     return Direction.EAST
-    # elif grid[get_next_square(location, Direction.SOUTH)] is not GridSpace.WALL:
-    #     return Direction.SOUTH
-
-
 def get_next_square(current_location: Point, direction: Direction):
     if direction == Direction.NORTH:
         return Point(current_location.x - 1, current_location.y)
@@ -82,13 +50,14 @@ def run_move(computer, move, grid, location, depth):
         return grid, oxygen_found
     computer = deepcopy(computer)
     computer.inputs.append(move)
-    halted = computer.run()
+
+    computer.run()
+
     output = computer.outputs.pop(0)
 
     if output == StatusCode.WALL:
         grid[next_location] = GridSpace.WALL
     elif output == StatusCode.MOVED:
-        # grid[location] = GridSpace.EMPTY
         grid[next_location] = GridSpace.EMPTY
         location = next_location
         grid, oxygen_found = run_moves(computer, grid, next_location, depth+1)
@@ -103,8 +72,6 @@ def run_moves(computer, grid, location, depth=1):
     counts = []
     for direction in [Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST]:
         grid, oxygen_found = run_move(computer, direction, grid, location, depth)
-        # if oxygen_found:
-        #     break
         counts.append(oxygen_found)
     return grid, min(counts)
 
@@ -123,7 +90,6 @@ def escape_helper(grid, location, direction, depth, history):
 
 def escape(grid, location, depth=0, history=set()):
     history.add(location)
-    # print(location)
     counts = []
     for direction in [Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST]:
         count = escape_helper(grid, location, direction, depth, history)
@@ -139,19 +105,11 @@ def main():
     program = list(parse_program(program_string))
     computer = IntCode(program, default_memory=8000)
 
-    halted = False
     location = Point(0, 0)
     grid = defaultdict(lambda: 0)
     grid[location] = GridSpace.DROID
 
-    count = 0
-    while not halted:
-        # sleep(2)
-        grid, _oxy = run_moves(computer, grid, location)
-
-        # print_grid(grid)
-        halted = True
-        count += 1
+    grid, _oxy = run_moves(computer, grid, location)
 
     print_grid(grid)
     print(_oxy)
@@ -175,7 +133,6 @@ def print_grid(grid):
 
     for pos_y in range(min_y, max_y + 1):
         for pos_x in range(min_x, max_x + 1):
-            # print('#' if grid[Point(pos_x, pos_y)] else ' ', end='')
             print(display[grid[Point(pos_x, pos_y)]], end='')
         print('')
 
