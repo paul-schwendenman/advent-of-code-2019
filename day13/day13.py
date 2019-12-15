@@ -15,10 +15,10 @@ def main():
     while not halted:
         halted = computer.run()
 
-    while len(computer.outputs) > 0:
-        x_pos = computer.outputs.pop(0)
-        y_pos = computer.outputs.pop(0)
-        tile_id = computer.outputs.pop(0)
+    while computer.has_output():
+        x_pos = computer.get_output()
+        y_pos = computer.get_output()
+        tile_id = computer.get_output()
 
         grid[Point(x_pos, y_pos)] = tile_id
 
@@ -38,10 +38,10 @@ def main2():
     while not halted:
         halted = computer.run()
 
-        while len(computer.outputs) > 0:
-            x_pos = computer.outputs.pop(0)
-            y_pos = computer.outputs.pop(0)
-            tile_id = computer.outputs.pop(0)
+        while computer.has_output():
+            x_pos = computer.get_output()
+            y_pos = computer.get_output()
+            tile_id = computer.get_output()
 
             if tile_id == 3:
                 paddle_x = x_pos
@@ -59,7 +59,7 @@ def main2():
         else:
             user_input = 0
 
-        computer.inputs.append(user_input)
+        computer.add_input(user_input)
 
     return grid[Point(-1, 0)]
 

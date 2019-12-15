@@ -49,11 +49,11 @@ def run_move(computer, move, grid, location, depth):
     if next_location in grid:
         return grid, oxygen_found
     computer = deepcopy(computer)
-    computer.inputs.append(move)
+    computer.add_input(move)
 
     computer.run()
 
-    output = computer.outputs.pop(0)
+    output = computer.get_output()
 
     if output == StatusCode.WALL:
         grid[next_location] = GridSpace.WALL

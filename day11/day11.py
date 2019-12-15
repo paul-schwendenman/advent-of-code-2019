@@ -46,11 +46,11 @@ def main(initial_color=0, filename='input'):
     grid[location] = initial_color
     facing = Direction.UP
     while not halted:
-        computer.inputs.append(grid[location])
+        computer.add_input(grid[location])
         halted = computer.run()
 
-        color = computer.outputs.pop(0)
-        direction = computer.outputs.pop(0)
+        color = computer.get_output()
+        direction = computer.get_output()
 
         grid[location] = color
         location, facing = move_robot(location, facing, direction)

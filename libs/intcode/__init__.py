@@ -85,8 +85,8 @@ class IntCode():
         if program:
             self.load_program(program)
 
-        self.inputs: List[int] = []
-        self.outputs: List[int] = []
+        self._inputs: List[int] = []
+        self._outputs: List[int] = []
 
     def load_program(self, program: List[int]) -> None:
         self._memory[:len(program)] = program
@@ -110,14 +110,14 @@ class IntCode():
 
                 self._cursor += 4
             elif opcode is Opcode.INPUT:
-                if self.inputs:
-                    self._memory[params[0]] = self.inputs.pop(0)
+                if self._inputs:
+                    self._memory[params[0]] = self._inputs.pop(0)
                 else:
                     return False
 
                 self._cursor += 2
             elif opcode is Opcode.OUTPUT:
-                self.outputs.append(self._memory[params[0]])
+                self._outputs.append(self._memory[params[0]])
 
                 self._cursor += 2
             elif opcode is Opcode.JUMP_IF:
@@ -144,6 +144,15 @@ class IntCode():
                 self._cursor += 2
             else:
                 raise MissingOpcode(opcode)
+
+    def get_output(self) -> int:
+        return self._outputs.pop(0)
+
+    def has_output(self) -> bool:
+        return len(self._outputs) > 0
+
+    def add_input(self, value: int) -> None:
+        self._inputs.append(value)
 
 
 def open_program(filename: str) -> List[int]:
