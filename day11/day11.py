@@ -34,7 +34,7 @@ def move_robot(location: Point, facing: Direction, clockwise: int) -> Tuple[Poin
 
 
 def main(initial_color=0):
-    with open('../day11/input') as input:
+    with open('day11/input') as input:
         program_string = input.readlines()[0]
 
     program = list(parse_program(program_string))

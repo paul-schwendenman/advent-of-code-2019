@@ -39,7 +39,7 @@ class Image():
 
 
 def main():
-    with open('input') as file:
+    with open('day08/input') as file:
         data = list(file.read())[:-1]
 
     print(data)
@@ -68,7 +68,7 @@ def main():
 
 def main2():
     width, height = 25, 6
-    with open('input') as file:
+    with open('day08/input') as file:
         # data = [Pixel(pixel) for pixel in (file.read()) if pixel != '\n']
         data = list(file.read())[:-1]
 

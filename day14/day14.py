@@ -51,31 +51,41 @@ def main(filename="puzzle1.in"):
 
     formulas = {reaction[0][1]: Formula(product=Product(quantity=int(reaction[0][0]), name=reaction[0][1]), reactants=[Reactant(quantity=int(reactant[0]), name=reactant[1]) for reactant in reaction[1]]) for reaction in reactions}
 
-    # for key in formulas.keys():
-    #     print(f'{key}: {formulas[key]}')
+    produced, _extra = find_reactants(formulas)
 
-    # produced = defaultdict(int)
+    return produced
+
+
+def main2(filename="puzzle1.in"):
+    with open(filename) as file:
+        lines = file.read().splitlines()
+
+    reactions = [line.split(' => ') for line in lines]
+    reactions = [(reaction[1].split(' '), [reactant.split(' ') for reactant in reaction[0].split(', ')]) for reaction in reactions]
+
+    formulas = {reaction[0][1]: Formula(product=Product(quantity=int(reaction[0][0]), name=reaction[0][1]), reactants=[Reactant(quantity=int(reactant[0]), name=reactant[1]) for reactant in reaction[1]]) for reaction in reactions}
 
     request = 1
     produced = 0
     offset = 0
-    last =0
+    last = 0
     while True:
         produced = find_reactants(formulas, requested_quantity=(offset+request))[0]
-        print(f'{produced:13} {(request + offset):12} {last:12}')
+        # print(f'{produced:13} {(request + offset):12} {last:12}')
 
         if produced > 1e12:
+            if last + 1 == offset + request:
+                break
             request = 1
             offset = last
         else:
             last = request + offset
             request *= 2
 
-    return request + offset
-
-
+    return last
 
 
 if __name__ == "__main__":
     print(main())
+    print(main2())
     # print(main('example1.in'))

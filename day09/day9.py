@@ -148,7 +148,7 @@ def run_program(program_string, input_value=0):
 
 
 def main(input_value):
-    with open('../day09/input') as input:
+    with open('day09/input') as input:
         program_string = input.readlines()[0]
 
     return run_program(program_string, input_value=input_value)
