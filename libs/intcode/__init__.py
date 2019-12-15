@@ -56,18 +56,14 @@ def split_instruction(instruction):
 
 
 def lookup_value(memory, mode, position, relative_base):
-    try:
-        if mode == ParameterMode.POSITION:
-            return memory[position]
-        elif mode == ParameterMode.IMMEDIATE:
-            return position
-        elif mode == ParameterMode.RELATIVE:
-            return relative_base + memory[position]
-        else:
-            raise MissingParameterMode
-
-    except IndexError:
-        pass
+    if mode == ParameterMode.POSITION:
+        return memory[position]
+    elif mode == ParameterMode.IMMEDIATE:
+        return position
+    elif mode == ParameterMode.RELATIVE:
+        return relative_base + memory[position]
+    else:
+        raise MissingParameterMode
 
 
 def lookup_values(memory, parameter_modes, cursor, relative_base):
