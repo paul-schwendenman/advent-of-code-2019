@@ -109,12 +109,11 @@ def main():
     grid = defaultdict(lambda: 0)
     grid[location] = GridSpace.DROID
 
-    grid, _oxy = run_moves(computer, grid, location)
+    grid, oxygen_location = run_moves(computer, grid, location)
 
     print_grid(grid)
-    print(_oxy)
 
-    print(escape(grid, Point(-16, 14)))
+    return oxygen_location, escape(grid, Point(-16, 14))
 
 
 def print_grid(grid):
@@ -140,4 +139,4 @@ def print_grid(grid):
 
 
 if __name__ == "__main__":
-    main()
+    print(main())
