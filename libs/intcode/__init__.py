@@ -4,7 +4,7 @@ An implementation of the intcode computer for Advent of Code 2019
 '''
 import sys
 from enum import Enum
-from typing import Iterable, List, Tuple, Any
+from typing import Iterable, List, Tuple, Any, Optional
 
 
 __author__ = 'Paul Schwendenman'
@@ -76,7 +76,7 @@ def lookup_values(memory: List[int], parameter_modes: List[ParameterMode], curso
 
 
 class IntCode():
-    def __init__(self, program: List[int] = None, default_memory: int = 2000, debug: bool = False):
+    def __init__(self, program: Optional[List[int]] = None, default_memory: int = 2000, debug: bool = False):
         self._memory = [0] * default_memory
         self._cursor = 0
         self._relative_base = 0
