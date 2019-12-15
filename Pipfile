@@ -11,7 +11,7 @@ mypy = "*"
 rope = "*"
 
 [packages]
-intcode = {path = "./libs"}
+intcode = {editable = true,path = "./libs"}
 
 [requires]
 python_version = "3.7"

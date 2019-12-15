@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "d0b3f773eb44a795856c36c4f7c37ceac25b3e6c3e60c58d95e91b7731dd854b"
+            "sha256": "88e3951f8ddf3d01a3834876a2ed713a4154054242f6798913ac2c238b2b5f0e"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -17,6 +17,7 @@
     },
     "default": {
         "intcode": {
+            "editable": true,
             "path": "./libs"
         }
     },
