@@ -1,4 +1,4 @@
-from intcode import IntCode, parse_program
+from intcode import IntCode, open_program
 from collections import defaultdict, namedtuple
 from enum import IntEnum
 from copy import deepcopy
@@ -99,10 +99,8 @@ def escape(grid, location, depth=0, history=set()):
 
 
 def main(filename='input'):
-    with open(filename) as file_input:
-        program_string = file_input.readlines()[0]
+    program = open_program(filename)
 
-    program = list(parse_program(program_string))
     computer = IntCode(program, default_memory=8000)
 
     location = Point(0, 0)

@@ -1,7 +1,7 @@
 from enum import IntEnum
 from collections import defaultdict, namedtuple
 from typing import Tuple
-from intcode import IntCode, parse_program
+from intcode import IntCode, open_program
 
 
 Point = namedtuple('Point', 'x y')
@@ -34,10 +34,7 @@ def move_robot(location: Point, facing: Direction, clockwise: int) -> Tuple[Poin
 
 
 def main(initial_color=0, filename='input'):
-    with open(filename) as file_input:
-        program_string = file_input.readlines()[0]
-
-    program = list(parse_program(program_string))
+    program = open_program(filename)
     computer = IntCode(program)
 
     halted = False
