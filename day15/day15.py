@@ -1,10 +1,12 @@
 from intcode import IntCode, parse_program
 from collections import defaultdict, namedtuple
 from enum import IntEnum
-from time import sleep
 from copy import deepcopy
 import sys
+
+
 sys.setrecursionlimit(5500000)
+
 
 Point = namedtuple('Point', 'x y')
 
@@ -93,7 +95,7 @@ def run_move(computer, move, grid, location, depth):
     elif output == StatusCode.FOUND:
         grid[next_location] = GridSpace.OXYGEN_SYSTEM
         oxygen_found = depth
-        print('found OXY')
+        print(f'found OXY at {next_location}')
     return grid, oxygen_found
 
 
@@ -105,6 +107,29 @@ def run_moves(computer, grid, location, depth=1):
         #     break
         counts.append(oxygen_found)
     return grid, min(counts)
+
+
+def escape_helper(grid, location, direction, depth, history):
+    next_location = get_next_square(location, direction)
+    if next_location in history:
+        return 0
+    output = grid[next_location]
+
+    if output == GridSpace.WALL:
+        return depth
+    else:
+        return escape(grid, next_location, depth+1)
+
+
+def escape(grid, location, depth=1, history=set()):
+    history.add(location)
+    # print(location)
+    counts = []
+    for direction in [Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST]:
+        count = escape_helper(grid, location, direction, depth, history)
+        counts.append(count)
+
+    return max(counts)
 
 
 def main():
@@ -130,6 +155,8 @@ def main():
 
     print_grid(grid)
     print(_oxy)
+
+    print(escape(grid, Point(-16, 14)))
 
 
 def print_grid(grid):
