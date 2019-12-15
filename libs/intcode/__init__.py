@@ -4,7 +4,8 @@ An implementation of the intcode computer for Advent of Code 2019
 '''
 import sys
 from enum import Enum
-from typing import Iterable, List, Tuple, Any, Optional
+from collections import deque
+from typing import Iterable, List, Tuple, Any, Optional, Deque
 
 
 __author__ = 'Paul Schwendenman'
@@ -85,8 +86,8 @@ class IntCode():
         if program:
             self.load_program(program)
 
-        self._inputs: List[int] = []
-        self._outputs: List[int] = []
+        self._inputs: Deque[int] = deque()
+        self._outputs: Deque[int] = deque()
 
     def load_program(self, program: List[int]) -> None:
         self._memory[:len(program)] = program
@@ -111,7 +112,7 @@ class IntCode():
                 self._cursor += 4
             elif opcode is Opcode.INPUT:
                 if self._inputs:
-                    self._memory[params[0]] = self._inputs.pop(0)
+                    self._memory[params[0]] = self._inputs.popleft()
                 else:
                     return False
 
@@ -146,7 +147,7 @@ class IntCode():
                 raise MissingOpcode(opcode)
 
     def get_output(self) -> int:
-        return self._outputs.pop(0)
+        return self._outputs.popleft()
 
     def has_output(self) -> bool:
         return len(self._outputs) > 0
