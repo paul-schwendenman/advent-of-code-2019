@@ -143,8 +143,7 @@ class IntCode():
 
                 self._cursor += 2
             else:
-                print(f"missing opcode: {opcode}")
-                raise MissingOpcode
+                raise MissingOpcode(opcode)
 
 
 def open_program(filename: str) -> List[int]:
