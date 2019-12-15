@@ -1,4 +1,4 @@
-from intcode import IntCode, parse_program, open_program
+from intcode import IntCode, open_program
 from collections import defaultdict, namedtuple
 
 
