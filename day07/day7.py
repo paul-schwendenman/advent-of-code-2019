@@ -136,9 +136,9 @@ def run_program(program, phases):
     return best_score
 
 
-def main(phases):
-    with open('day07/input') as input:
-        program_string = input.readlines()[0]
+def main(phases, filename='input'):
+    with open(filename) as file_input:
+        program_string = file_input.readlines()[0]
 
     program = list(parse_program(program_string))
     return run_program(program, phases)

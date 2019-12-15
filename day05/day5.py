@@ -93,9 +93,9 @@ def run_program(program, cursor=0, input_value=5):
         print(f"missing opcode: {opcode}")
 
 
-def main(param=1):
-    with open('day05/input') as input:
-        program_string = input.readlines()[0]
+def main(param=1, filename='input'):
+    with open(filename) as input_file:
+        program_string = input_file.readlines()[0]
 
     program = list(parse_program(program_string))
     run_program(program, input_value=param)

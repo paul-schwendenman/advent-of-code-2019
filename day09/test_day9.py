@@ -2,11 +2,11 @@ from day9 import main, run_program
 
 
 def test_main():
-    assert main(1) == [3507134798]
+    assert main(1, 'day09/input') == [3507134798]
 
 
-def test_mai2():
-    assert main(2) == [84513]
+def test_main2():
+    assert main(2, 'day09/input') == [84513]
 
 
 def test_returns_self():

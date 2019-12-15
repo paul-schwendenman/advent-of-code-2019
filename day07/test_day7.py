@@ -32,8 +32,8 @@ def test_run_program5():
 
 
 def test_main():
-    assert main([0, 1, 2, 3, 4]) == 95757
+    assert main([0, 1, 2, 3, 4], filename='day07/input') == 95757
 
 
 def test_main2():
-    assert main([5, 6, 7, 8, 9]) == 4275738
+    assert main([5, 6, 7, 8, 9], filename='day07/input') == 4275738

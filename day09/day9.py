@@ -147,9 +147,9 @@ def run_program(program_string, input_value=0):
     return computer.outputs
 
 
-def main(input_value):
-    with open('day09/input') as input:
-        program_string = input.readlines()[0]
+def main(input_value, filename='input'):
+    with open(filename) as file_input:
+        program_string = file_input.readlines()[0]
 
     return run_program(program_string, input_value=input_value)
 

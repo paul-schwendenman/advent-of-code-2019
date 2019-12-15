@@ -33,9 +33,9 @@ def move_robot(location: Point, facing: Direction, clockwise: int) -> Tuple[Poin
     return location, facing
 
 
-def main(initial_color=0):
-    with open('day11/input') as input:
-        program_string = input.readlines()[0]
+def main(initial_color=0, filename='input'):
+    with open(filename) as file_input:
+        program_string = file_input.readlines()[0]
 
     program = list(parse_program(program_string))
     computer = IntCode(program)

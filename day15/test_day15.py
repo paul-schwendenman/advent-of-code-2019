@@ -2,4 +2,4 @@ from day15 import main
 
 
 def test_main():
-    assert main() == (266, 274)
+    assert main('day15/input') == (266, 274)

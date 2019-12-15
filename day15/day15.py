@@ -98,9 +98,9 @@ def escape(grid, location, depth=0, history=set()):
     return max(counts)
 
 
-def main():
-    with open('../day15/input') as input:
-        program_string = input.readlines()[0]
+def main(filename='input'):
+    with open(filename) as file_input:
+        program_string = file_input.readlines()[0]
 
     program = list(parse_program(program_string))
     computer = IntCode(program, default_memory=8000)
