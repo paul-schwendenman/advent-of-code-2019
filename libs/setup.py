@@ -14,5 +14,6 @@ setup(name='intcode',
       license=intcode.__license__,
       url='https://github.com/paul-schwendenman/advent-of-code-2019',
       packages=['intcode'],
+      package_data={"intcode": ["py.typed"]},
       classifiers=[],
       )

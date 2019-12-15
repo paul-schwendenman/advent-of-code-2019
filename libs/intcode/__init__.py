@@ -4,6 +4,7 @@ An implementation of the intcode computer for Advent of Code 2019
 '''
 import sys
 from enum import Enum
+from typing import Iterable, List, Tuple, Any
 
 
 __author__ = 'Paul Schwendenman'
@@ -39,23 +40,23 @@ class ParameterMode(Enum):
     RELATIVE = '2'
 
 
-def eprint(*args, **kwargs):
+def eprint(*args: Any, **kwargs: Any) -> None:
     print(*args, file=sys.stderr, **kwargs)
 
 
-def parse_program(program):
+def parse_program(program: str) -> Iterable[int]:
     return (int(item) for item in program.split(','))
 
 
-def split_instruction(instruction):
+def split_instruction(instruction: int) -> Tuple[Opcode, List[ParameterMode]]:
     opcode = Opcode(instruction % 100)
-    instruction = list(str(instruction))
-    parameter_modes = [ParameterMode(mode) for mode in (["0"] * 5 + instruction)[-3:-6:-1]]
+    deconstructed_instruction = list(str(instruction))
+    parameter_modes = [ParameterMode(mode) for mode in (["0"] * 5 + deconstructed_instruction)[-3:-6:-1]]
 
     return opcode, parameter_modes
 
 
-def lookup_value(memory, mode, position, relative_base):
+def lookup_value(memory: List[int], mode: ParameterMode, position: int, relative_base: int) -> int:
     if mode == ParameterMode.POSITION:
         return memory[position]
     elif mode == ParameterMode.IMMEDIATE:
@@ -66,7 +67,7 @@ def lookup_value(memory, mode, position, relative_base):
         raise MissingParameterMode
 
 
-def lookup_values(memory, parameter_modes, cursor, relative_base):
+def lookup_values(memory: List[int], parameter_modes: List[ParameterMode], cursor: int, relative_base: int) -> Tuple[int, int, int]:  # noqa: E501
     param_1 = lookup_value(memory, parameter_modes[0], cursor + 1, relative_base)
     param_2 = lookup_value(memory, parameter_modes[1], cursor + 2, relative_base)
     param_3 = lookup_value(memory, parameter_modes[2], cursor + 3, relative_base)
@@ -75,7 +76,7 @@ def lookup_values(memory, parameter_modes, cursor, relative_base):
 
 
 class IntCode():
-    def __init__(self, program=None, default_memory=2000, debug=False):
+    def __init__(self, program: List[int] = None, default_memory: int = 2000, debug: bool = False):
         self._memory = [0] * default_memory
         self._cursor = 0
         self._relative_base = 0
@@ -84,13 +85,13 @@ class IntCode():
         if program:
             self.load_program(program)
 
-        self.inputs = []
-        self.outputs = []
+        self.inputs: List[int] = []
+        self.outputs: List[int] = []
 
-    def load_program(self, program):
+    def load_program(self, program: List[int]) -> None:
         self._memory[:len(program)] = program
 
-    def run(self):
+    def run(self) -> bool:
         while True:
             opcode, parameter_modes = split_instruction(self._memory[self._cursor])
 
@@ -146,8 +147,11 @@ class IntCode():
                 raise MissingOpcode
 
 
-def open_program(filename):
+def open_program(filename: str) -> List[int]:
     with open(filename) as input_file:
         program = parse_program(input_file.read())
 
     return list(program)
+
+
+__all__ = ["open_program", "parse_program", "IntCode"]
