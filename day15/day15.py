@@ -121,7 +121,7 @@ def escape_helper(grid, location, direction, depth, history):
         return escape(grid, next_location, depth+1)
 
 
-def escape(grid, location, depth=1, history=set()):
+def escape(grid, location, depth=0, history=set()):
     history.add(location)
     # print(location)
     counts = []
