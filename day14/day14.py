@@ -1,4 +1,4 @@
-from collections import namedtuple, defaultdict
+from collections import namedtuple
 import math
 
 Formula = namedtuple('Formula', 'product reactants')
@@ -21,7 +21,7 @@ def find_reactants(formulas, extra_produced={}, requested_quantity=1, product='F
 
     needed_quantity = requested_quantity - extra_produced.get(product, 0)
     multiplier = math.ceil(needed_quantity / formula.product.quantity)
-    # print(f'multi {product}: {multiplier} = ceiling(({requested_quantity} - {extra_produced.get(product, 0)}) / {formula.product.quantity})')
+    # print(f'multi {product}: {multiplier} = ceiling(({requested_quantity} - {extra_produced.get(product, 0)}) / {formula.product.quantity})')  # noqa: E501
 
     extra = (formula.product.quantity * multiplier) - needed_quantity
     # print(f'extra {product}: {extra} = (({multiplier} * {formula.product.quantity}) - {needed_quantity})')
@@ -34,7 +34,7 @@ def find_reactants(formulas, extra_produced={}, requested_quantity=1, product='F
     # print(f'searching children of {product}: {", ".join(reactant.name for reactant in formula.reactants)}')
     for reactant in formula.reactants:
         reactant_requested_quantity = multiplier * reactant.quantity
-        result, extra_produced = find_reactants(formulas, extra_produced.copy(), reactant_requested_quantity, reactant.name)
+        result, extra_produced = find_reactants(formulas, extra_produced.copy(), reactant_requested_quantity, reactant.name)  # noqa: E501
         results.append(result)
 
     # print(f'results {product}: {sum(results)} = {" + ".join(str(r) for r in results)}')
@@ -47,9 +47,9 @@ def main(filename="puzzle1.in"):
         lines = file.read().splitlines()
 
     reactions = [line.split(' => ') for line in lines]
-    reactions = [(reaction[1].split(' '), [reactant.split(' ') for reactant in reaction[0].split(', ')]) for reaction in reactions]
+    reactions = [(reaction[1].split(' '), [reactant.split(' ') for reactant in reaction[0].split(', ')]) for reaction in reactions]  # noqa: E501
 
-    formulas = {reaction[0][1]: Formula(product=Product(quantity=int(reaction[0][0]), name=reaction[0][1]), reactants=[Reactant(quantity=int(reactant[0]), name=reactant[1]) for reactant in reaction[1]]) for reaction in reactions}
+    formulas = {reaction[0][1]: Formula(product=Product(quantity=int(reaction[0][0]), name=reaction[0][1]), reactants=[Reactant(quantity=int(reactant[0]), name=reactant[1]) for reactant in reaction[1]]) for reaction in reactions}  # noqa: E501
 
     produced, _extra = find_reactants(formulas)
 
@@ -61,9 +61,9 @@ def main2(filename="puzzle1.in"):
         lines = file.read().splitlines()
 
     reactions = [line.split(' => ') for line in lines]
-    reactions = [(reaction[1].split(' '), [reactant.split(' ') for reactant in reaction[0].split(', ')]) for reaction in reactions]
+    reactions = [(reaction[1].split(' '), [reactant.split(' ') for reactant in reaction[0].split(', ')]) for reaction in reactions]  # noqa: E501
 
-    formulas = {reaction[0][1]: Formula(product=Product(quantity=int(reaction[0][0]), name=reaction[0][1]), reactants=[Reactant(quantity=int(reactant[0]), name=reactant[1]) for reactant in reaction[1]]) for reaction in reactions}
+    formulas = {reaction[0][1]: Formula(product=Product(quantity=int(reaction[0][0]), name=reaction[0][1]), reactants=[Reactant(quantity=int(reactant[0]), name=reactant[1]) for reactant in reaction[1]]) for reaction in reactions}  # noqa: E501
 
     request = 1
     produced = 0
