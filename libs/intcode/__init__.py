@@ -40,8 +40,8 @@ class ParameterMode(Enum):
     RELATIVE = '2'
 
 
-def eprint(*args: Any, **kwargs: Any) -> None:
-    print(*args, file=sys.stderr, **kwargs)
+def eprint(*args: Any, **kwargs: Any) -> None:  # type: ignore
+    print(*args, file=sys.stderr, **kwargs)  # type: ignore
 
 
 def parse_program(program: str) -> Iterable[int]:
