@@ -97,7 +97,7 @@ def run_move(computer, move, grid, location, depth):
     return grid, oxygen_found
 
 
-def run_moves(computer, grid, location, depth=0):
+def run_moves(computer, grid, location, depth=1):
     counts = []
     for direction in [Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST]:
         grid, oxygen_found = run_move(computer, direction, grid, location, depth)
