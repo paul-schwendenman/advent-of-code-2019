@@ -1,5 +1,6 @@
 from intcode import open_program, IntCode
 from collections import namedtuple
+from typing import Iterator
 
 
 Point = namedtuple('Point', 'x y')
@@ -13,17 +14,10 @@ def get_neighboors(current_location: Point):
 
 
 def print_grid(outputs):
-    display_map = {
-        46: '.',
-        35: '#',
-        10: '\n',
-        60: '<',
-        62: '>',
-        94: '^',
-        118: 'v'
-    }
     for output in outputs:
-        print(display_map[output], end='')
+        print(chr(output), end='')
+
+    print('')
 
 
 def convert_to_array(outputs):
@@ -55,6 +49,8 @@ def part1(program):
     computer.run()
 
     outputs = list(computer._outputs)
+    print(f'input len: {len(computer._inputs)}')
+    print(f'output len: {len(outputs)}')
     computer._outputs.clear()
 
     print_grid(outputs)
@@ -68,9 +64,36 @@ def part1(program):
     return sum(intersection.x * intersection.y for intersection in list(intersections))
 
 
+def make_instruction(instruction: str) -> Iterator[int]:
+    return map(ord, instruction)
+
+
+def part2(program):
+    program[0] = 2
+    computer = IntCode(program, default_memory=8000)
+    main_prog = make_instruction('A,B,A,B,A,C,A,C,B,C\n')
+    computer._inputs.extend(main_prog)
+    a_func = make_instruction('R,6,L,10,R,10,R,10\n')
+    computer._inputs.extend(a_func)
+    b_func = make_instruction('L,10,L,12,R,10\n')
+    computer._inputs.extend(b_func)
+    c_func = make_instruction('R,6,L,12,L,10\n')
+    computer._inputs.extend(c_func)
+    video = make_instruction('y\n')
+    computer._inputs.extend(video)
+    computer.run()
+
+    outputs = list(computer._outputs)
+    computer._outputs.clear()
+
+    print_grid(outputs)
+    return outputs[-1:]
+
+
 def main(filename='input'):
     program = open_program(filename)
-    return part1(program)
+    # print(part1(program))
+    return part2(program[:])
 
 
 if __name__ == "__main__":
