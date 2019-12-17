@@ -35,17 +35,48 @@ def convert_to_string(array):
 
 def main():
     with open('input') as input_file:
+        data = input_file.read().rstrip()
+
+    values = convert_from_string(data)
+    offset = int(data[:8])
+
+    # part1(values[:])
+    part2(values[:], offset)
+
+
+def part1(values):
+    for step in range(100):
+        values = fft(values)
+        print(f'step {step}: {convert_to_string(values)}')
+
+    return convert_to_string(values)[:8]
+
+
+def part2(values, offset):
+    for step in range(100):
+        values = fft(values)
+        print(f'step {step}: {convert_to_string(values)}')
+
+    print(offset)
+
+    return convert_to_string(values)[:8]
+
+
+def main():
+    with open('input') as input_file:
         data = input_file.read()
     # base_pattern = [0, 1, 0, -1]
 
     # values = convert_from_string("80871224585914546619083218645595")
     values = convert_from_string(data)
+    offset = int(data[:8])
 
     for step in range(100):
         values = fft(values)
         print(f'step {step}: {convert_to_string(values)}')
 
     # offset = convert_to_string(values)[:7]
+    print(offset)
     # print(values[offset:offset+10])
     return convert_to_string(values)[:8]
 
