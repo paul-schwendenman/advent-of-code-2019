@@ -43,15 +43,15 @@ def part1(values):
 
 
 def part2(values, offset):
-    values = (values * 10000)[offset:]
-    # for step in range(1):
-    #     values = fft(values)
-    #     print(f'step {step}: {convert_to_string(values)}')
+    values = (values * 10000)
+    for _phase in range(100):
+        acc = 0
 
-    print(offset)
-    print(len(values))
+        for index in range(len(values)-1, len(values) // 2, -1):
+            acc += values[index]
+            values[index] = acc % 10
 
-    return convert_to_string(values)[:8]
+    return convert_to_string(values[offset:offset+8])
 
 
 def main():
