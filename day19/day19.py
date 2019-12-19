@@ -1,5 +1,6 @@
 from intcode import open_program, IntCode
-from collections import defaultdict, namedtuple
+from collections import namedtuple
+from typing import Tuple
 
 
 Point = namedtuple('Point', 'x y')
@@ -27,8 +28,28 @@ def part1():
     return count
 
 
+def memoize(f):
+    memo = {}
+
+    def wrapper(*args):
+        if args not in memo:
+            memo[args] = f(*args)
+        return memo[args]
+    return wrapper
+
+
+def check_point(program: Tuple[int], point: Point):
+    computer = IntCode(list(program))
+    computer.add_input(point.x)
+    computer.add_input(point.y)
+    computer.run()
+
+    output = computer.get_output()
+    return output
+
+
 def part2():
-    program = open_program('input')
+    program = tuple(open_program('input'))
     # computer = IntCode(program)
 
     base_y = 475
@@ -41,12 +62,8 @@ def part2():
             # grid = defaultdict(int)
             for y in range(base_y+j, base_y+j+100):
                 for x in range(base_x+i, base_x+i+100):
-                    computer = IntCode(program[:])
-                    computer.add_input(x)
-                    computer.add_input(y)
-                    computer.run()
+                    output = check_point(program, Point(x, y))
 
-                    output = computer.get_output()
                     if output:
                         count += 1
                         # grid[Point(x, y)] = 1
