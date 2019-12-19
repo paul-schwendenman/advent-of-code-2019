@@ -38,6 +38,7 @@ def memoize(f):
     return wrapper
 
 
+@memoize
 def check_point(program: Tuple[int], point: Point):
     computer = IntCode(list(program))
     computer.add_input(point.x)
