@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Dict, List, Iterator
+from typing import Dict, List, Iterator, Set
 from collections import namedtuple, defaultdict
 import itertools
 
@@ -16,9 +16,15 @@ class Point(namedtuple('Point', 'x y')):
 
 
 def get_portal_neighboor(base_point: Point, template) -> Point:
-    neighboors = [item for item in base_point.get_neighboors() if template[item.y][item.x].isalpha()]
-    assert len(neighboors) == 1
-    return neighboors[0]
+    def check_char(point):
+        try:
+            return template[point.y][point.x].isalpha()
+        except IndexError:
+            return False
+
+    neighboors = filter(check_char, base_point.get_neighboors())
+
+    return next(neighboors)
 
 
 def get_portal_name(base_point: Point, template) -> str:
@@ -30,17 +36,23 @@ def get_portal_name(base_point: Point, template) -> str:
 
 
 def get_portal_location(base_point: Point, template) -> Point:
+    def check_char(point):
+        try:
+            return template[point.y][point.x] == '.'
+        except IndexError:
+            return False
+
     neighboor = get_portal_neighboor(base_point, template)
     possible_locations = itertools.chain(base_point.get_neighboors(), neighboor.get_neighboors())
 
-    location = filter(lambda point: template[point.y][point.x] == '.', possible_locations)
+    location = filter(check_char, possible_locations)
 
     return next(location)
 
 
 def process_maze(maze_template):
     maze: Dict[Point, str] = {}
-    portals: Dict[str, List[Point]] = defaultdict(list)
+    portals: Dict[str, Set[Point]] = defaultdict(set)
 
     for y, row in enumerate(maze_template):
         for x, cell in enumerate(row):
@@ -49,7 +61,7 @@ def process_maze(maze_template):
             if cell.isalpha():
                 portal_name = get_portal_name(point, maze_template)
                 portal_location = get_portal_location(point, maze_template)
-                portals[portal_name] = portal_location
+                portals[portal_name].add(portal_location)
 
     return maze, portals
 
@@ -58,7 +70,7 @@ def main(filename='input'):
     with open(filename) as input_file:
         maze_template = input_file.read().splitlines()
 
-    return process_maze(maze_template)
+    return process_maze(maze_template)[1]
 
 
 if __name__ == "__main__":
