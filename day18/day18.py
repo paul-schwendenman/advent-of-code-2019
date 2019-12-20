@@ -113,5 +113,60 @@ def main(filename="input"):
     return result
 
 
+def main2(filename="input.part2"):
+    with open(filename) as input_file:
+        grid_template = input_file.read().splitlines()
+
+    maze, goals = process_maze(grid_template)
+
+    keys = {key for key in goals.keys() if key.islower()}
+    links = {
+        '1': find_paths(maze, goals['1']),
+        '2': find_paths(maze, goals['2']),
+        '3': find_paths(maze, goals['3']),
+        '4': find_paths(maze, goals['4']),
+    }
+
+    for key in keys:
+        links[key] = find_paths(maze, goals[key])
+
+    cache = {}
+
+    def walk_path(names, need_keys):
+        if not need_keys:
+            return 0
+
+        cache_key = ''.join(names) + ''.join(need_keys)
+        if cache_key in cache:
+            return cache[cache_key]
+
+        shortest = math.inf
+        for key in need_keys:
+            for name in names:
+                if key not in links[name]:
+                    continue
+
+                path_length, doors = links[name][key]
+
+                if path_length >= shortest:
+                    continue
+
+                if not doors.isdisjoint(need_keys):
+                    continue
+
+                tail = walk_path(names - {name} | {key}, need_keys - {key})
+
+                if shortest > (path_length + tail):
+                    shortest = path_length + tail
+
+        cache[cache_key] = shortest
+        return shortest
+
+    result = walk_path({'1', '2', '3', '4'}, keys)
+    print(f'cached: {len(cache)}')
+
+    return result
+
+
 if __name__ == "__main__":
-    print(main())
+    print(main2())
