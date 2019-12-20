@@ -1,6 +1,7 @@
 from __future__ import annotations
 from typing import Dict, List, Iterator
-from collections import namedtuple
+from collections import namedtuple, defaultdict
+import itertools
 
 
 class Point(namedtuple('Point', 'x y')):
@@ -14,9 +15,42 @@ class Point(namedtuple('Point', 'x y')):
         return Point(self.x + other[0], self.y + other[1])
 
 
-def parse_maze(maze_template):
+def get_portal_neighboor(base_point: Point, template) -> Point:
+    neighboors = [item for item in base_point.get_neighboors() if template[item.y][item.x].isalpha()]
+    assert len(neighboors) == 1
+    return neighboors[0]
+
+
+def get_portal_name(base_point: Point, template) -> str:
+    neighboor = get_portal_neighboor(base_point, template)
+
+    first_char = template[min(base_point.y, neighboor.y)][min(base_point.x, neighboor.x)]
+    second_char = template[max(base_point.y, neighboor.y)][max(base_point.x, neighboor.x)]
+    return first_char + second_char
+
+
+def get_portal_location(base_point: Point, template) -> Point:
+    neighboor = get_portal_neighboor(base_point, template)
+    possible_locations = itertools.chain(base_point.get_neighboors(), neighboor.get_neighboors())
+
+    location = filter(lambda point: template[point.y][point.x] == '.', possible_locations)
+
+    return next(location)
+
+
+def process_maze(maze_template):
     maze: Dict[Point, str] = {}
-    portals: Dict[str, List[Point]] = {}
+    portals: Dict[str, List[Point]] = defaultdict(list)
+
+    for y, row in enumerate(maze_template):
+        for x, cell in enumerate(row):
+            point = Point(x, y)
+            maze[point] = cell
+            if cell.isalpha():
+                portal_name = get_portal_name(point, maze_template)
+                portal_location = get_portal_location(point, maze_template)
+                portals[portal_name] = portal_location
+
     return maze, portals
 
 
@@ -24,7 +58,7 @@ def main(filename='input'):
     with open(filename) as input_file:
         maze_template = input_file.read().splitlines()
 
-    return parse_maze(maze_template)
+    return process_maze(maze_template)
 
 
 if __name__ == "__main__":
