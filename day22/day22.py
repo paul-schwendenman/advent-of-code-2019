@@ -26,8 +26,20 @@ def increment(deck: Deque, spaces: int) -> Deque:
     return Deque(table)
 
 
+def process_instructions(instructions: Iterable[str], deck: Deque) -> Deque:
+    for instruction in instructions:
+        if instruction[:3] == "cut":
+            number_of_cards = int(instruction[4:])
+            deck = cut(deck, number_of_cards)
+        elif instruction[:20] == 'deal with increment ':
+            spaces = int(instruction[20:])
+            deck = increment(deck, spaces)
+        elif instruction == 'deal into new stack':
+            deck = new_stack(deck)
 
     return deck
+
+
 
 def main():
     pass
