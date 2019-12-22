@@ -27,7 +27,8 @@ def increment(deck: Deque, spaces: int) -> Deque:
 
 
 def process_instructions(instructions: Iterable[str], deck: Deque) -> Deque:
-    for instruction in instructions:
+    for count, instruction in enumerate(instructions):
+        print(f'{count:2}. {instruction}')
         if instruction[:3] == "cut":
             number_of_cards = int(instruction[4:])
             deck = cut(deck, number_of_cards)
@@ -36,14 +37,21 @@ def process_instructions(instructions: Iterable[str], deck: Deque) -> Deque:
             deck = increment(deck, spaces)
         elif instruction == 'deal into new stack':
             deck = new_stack(deck)
+        else:
+            raise ValueError(f"Invalid instruction: '{instruction}'")
 
     return deck
 
 
-
 def main():
-    pass
+    with open('input') as file_input:
+        instructions = file_input.read().splitlines()
+
+    deck = deque(range(10007))
+    deck = process_instructions(instructions, deck)
+
+    return deck.index(2019)
 
 
 if __name__ == "__main__":
-    main()
+    print(main())

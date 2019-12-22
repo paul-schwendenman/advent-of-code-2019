@@ -32,6 +32,26 @@ def test_process_instructions():
     assert process_instructions(instructions, deck) == deque([0, 3, 6, 9, 2, 5, 8, 1, 4, 7])
 
 
+def test_process_instructions2():
+    instructions = [
+        'cut 6',
+        'deal with increment 7',
+        'deal into new stack',
+    ]
+    deck = deque([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+    assert process_instructions(instructions, deck) == deque([3, 0, 7, 4, 1, 8, 5, 2, 9, 6])
+
+
+def test_process_instructions3():
+    instructions = [
+        'deal with increment 7',
+        'deal with increment 9',
+        'cut -2',
+    ]
+    deck = deque([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+    assert process_instructions(instructions, deck) == deque([6, 3, 0, 7, 4, 1, 8, 5, 2, 9])
+
+
 def test_process_instructions4():
     instructions = [
         'deal into new stack',
