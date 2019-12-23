@@ -1,5 +1,12 @@
 from collections import deque
-from typing import Iterable, Deque
+from typing import Iterable, Deque, Iterator, Tuple, Optional
+from enum import Enum, auto
+
+
+class Operation(Enum):
+    CUT = auto()
+    STACK = auto()
+    INCREMENT = auto()
 
 
 def new_stack(deck: Deque) -> Deque:
@@ -26,26 +33,33 @@ def increment(deck: Deque, spaces: int) -> Deque:
     return Deque(table)
 
 
-def process_instructions(instructions: Iterable[str], deck: Deque) -> Deque:
-    for count, instruction in enumerate(instructions):
-        print(f'{count:2}. {instruction}')
-        if instruction[:3] == "cut":
-            number_of_cards = int(instruction[4:])
-            deck = cut(deck, number_of_cards)
-        elif instruction[:20] == 'deal with increment ':
-            spaces = int(instruction[20:])
-            deck = increment(deck, spaces)
-        elif instruction == 'deal into new stack':
+def process_instructions(instructions: Iterable[Tuple[Operation, int]], deck: Deque) -> Deque:
+    for count, (instruction, value) in enumerate(instructions):
+        # print(f'{count:2}. {instruction}')
+        if instruction == Operation.CUT:
+            deck = cut(deck, value)
+        elif instruction == Operation.INCREMENT:
+            deck = increment(deck, value)
+        elif instruction == Operation.STACK:
             deck = new_stack(deck)
-        else:
-            raise ValueError(f"Invalid instruction: '{instruction}'")
 
     return deck
 
 
+def parse_instructions(instructions: Iterable[str]) -> Iterator[Tuple[Operation, Optional[int]]]:
+    for instruction in instructions:
+        print(f'{instruction}')
+        if instruction[:3] == "cut":
+            yield (Operation.CUT, int(instruction[4:]))
+        elif instruction[:20] == 'deal with increment ':
+            yield (Operation.INCREMENT, int(instruction[20:]))
+        elif instruction == 'deal into new stack':
+            yield (Operation.STACK, None)
+
+
 def part1():
     with open('input') as file_input:
-        instructions = file_input.read().splitlines()
+        instructions = parse_instructions(file_input.read().splitlines())
 
     deck = deque(range(10007))
     deck = process_instructions(instructions, deck)

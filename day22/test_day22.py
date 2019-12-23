@@ -1,4 +1,4 @@
-from day22 import new_stack, cut, increment, process_instructions
+from day22 import new_stack, cut, increment, process_instructions, parse_instructions, Operation
 from collections import deque
 
 
@@ -23,37 +23,52 @@ def test_increment():
 
 
 def test_process_instructions():
-    instructions = [
+    instructions = parse_instructions([
         'deal with increment 7',
         'deal into new stack',
         'deal into new stack',
-    ]
+    ])
     deck = deque([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
     assert process_instructions(instructions, deck) == deque([0, 3, 6, 9, 2, 5, 8, 1, 4, 7])
 
 
-def test_process_instructions2():
+def test_parse_instructions():
     instructions = [
+        'deal with increment 7',
+        'deal into new stack',
+        'cut 6',
+        'deal into new stack',
+    ]
+    assert list(parse_instructions(instructions)) == [
+        (Operation.INCREMENT, 7),
+        (Operation.STACK, None),
+        (Operation.CUT, 6),
+        (Operation.STACK, None)
+    ]
+
+
+def test_process_instructions2():
+    instructions = parse_instructions([
         'cut 6',
         'deal with increment 7',
         'deal into new stack',
-    ]
+    ])
     deck = deque([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
     assert process_instructions(instructions, deck) == deque([3, 0, 7, 4, 1, 8, 5, 2, 9, 6])
 
 
 def test_process_instructions3():
-    instructions = [
+    instructions = parse_instructions([
         'deal with increment 7',
         'deal with increment 9',
         'cut -2',
-    ]
+    ])
     deck = deque([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
     assert process_instructions(instructions, deck) == deque([6, 3, 0, 7, 4, 1, 8, 5, 2, 9])
 
 
 def test_process_instructions4():
-    instructions = [
+    instructions = parse_instructions([
         'deal into new stack',
         'cut -2',
         'deal with increment 7',
@@ -64,6 +79,6 @@ def test_process_instructions4():
         'deal with increment 9',
         'deal with increment 3',
         'cut -1',
-    ]
+    ])
     deck = deque([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
     assert process_instructions(instructions, deck) == deque([9, 2, 5, 8, 1, 4, 7, 0, 3, 6])
