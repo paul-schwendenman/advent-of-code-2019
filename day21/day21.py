@@ -38,6 +38,5 @@ def main():
             return char
 
 
-
 if __name__ == "__main__":
     print(main())

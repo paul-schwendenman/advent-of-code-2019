@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Dict, List, Iterator, Set
+from typing import Dict, Iterator, Set
 from collections import namedtuple, defaultdict
 import itertools
 
