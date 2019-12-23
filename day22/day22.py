@@ -43,7 +43,7 @@ def process_instructions(instructions: Iterable[str], deck: Deque) -> Deque:
     return deck
 
 
-def main():
+def part1():
     with open('input') as file_input:
         instructions = file_input.read().splitlines()
 
@@ -53,5 +53,29 @@ def main():
     return deck.index(2019)
 
 
+def main():
+    with open('input') as file_input:
+        instructions = file_input.read().splitlines()
+
+    number_of_cards = 119315717514047
+    value_at_2020 = 2020
+    for instruction in reversed(instructions):
+        if instruction[:3] == "cut":
+            value_at_2020 -= int(instruction[4:])
+            value_at_2020 %= number_of_cards
+        elif instruction[:20] == 'deal with increment ':
+            spaces = int(instruction[20:])
+
+        elif instruction == 'deal into new stack':
+            value_at_2020 = number_of_cards - value_at_2020
+        else:
+            raise ValueError(f"Invalid instruction: '{instruction}'")
+
+    return value_at_2020
+
+
 if __name__ == "__main__":
-    print(main())
+    # print(main())
+    for i in (2, 3):
+        deck = deque(range(7))
+        print(f'{i}. {increment(deck, i)}')
