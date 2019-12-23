@@ -1,4 +1,4 @@
-from collections import deque
+from collections import deque, namedtuple
 from typing import Iterable, Deque, Iterator, Tuple, Optional
 from enum import Enum, auto
 
@@ -7,6 +7,9 @@ class Operation(Enum):
     CUT = auto()
     STACK = auto()
     INCREMENT = auto()
+
+
+Instruction = namedtuple('Instruction', 'operation value')
 
 
 def new_stack(deck: Deque) -> Deque:
@@ -33,14 +36,13 @@ def increment(deck: Deque, spaces: int) -> Deque:
     return Deque(table)
 
 
-def process_instructions(instructions: Iterable[Tuple[Operation, int]], deck: Deque) -> Deque:
-    for count, (instruction, value) in enumerate(instructions):
-        # print(f'{count:2}. {instruction}')
-        if instruction == Operation.CUT:
+def process_instructions(instructions: Iterable[Instruction], deck: Deque) -> Deque:
+    for count, (operation, value) in enumerate(instructions):
+        if operation == Operation.CUT:
             deck = cut(deck, value)
-        elif instruction == Operation.INCREMENT:
+        elif operation == Operation.INCREMENT:
             deck = increment(deck, value)
-        elif instruction == Operation.STACK:
+        elif operation == Operation.STACK:
             deck = new_stack(deck)
 
     return deck
@@ -50,11 +52,11 @@ def parse_instructions(instructions: Iterable[str]) -> Iterator[Tuple[Operation,
     for instruction in instructions:
         print(f'{instruction}')
         if instruction[:3] == "cut":
-            yield (Operation.CUT, int(instruction[4:]))
+            yield Instruction(Operation.CUT, int(instruction[4:]))
         elif instruction[:20] == 'deal with increment ':
-            yield (Operation.INCREMENT, int(instruction[20:]))
+            yield Instruction(Operation.INCREMENT, int(instruction[20:]))
         elif instruction == 'deal into new stack':
-            yield (Operation.STACK, None)
+            yield Instruction(Operation.STACK, None)
 
 
 def part1():
