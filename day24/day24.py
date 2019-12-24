@@ -33,25 +33,14 @@ def count_neighboors(state, x, y):
 
 def step_simulation(state):
     new_state = defaultdict(lambda: defaultdict(bool))
-    # new_state = [[False for _ in range(5)] for _ in range(5)]
     for y in range(5):
         for x in range(5):
             space = state[y][x]
             count = count_neighboors(state, x, y)
-            print(f'{(x, y)} {"#" if space else "."} \t{count}', end='\t')
-            if space:
-                if count == 1:
-                    print('survive')
-                    new_state[y][x] = True
-                else:
-                    print('die')
-                    new_state[y][x] = False
-            else:
-                if count in (1, 2):
-                    print('spawn')
-                    new_state[y][x] = True
-                else:
-                    print('idle')
+            if space and count == 1:
+                new_state[y][x] = True
+            elif not space and count in (1, 2):
+                new_state[y][x] = True
     return new_state
 
 
