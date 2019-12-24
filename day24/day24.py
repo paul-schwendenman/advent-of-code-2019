@@ -67,7 +67,8 @@ def score_state(state):
 
 
 def main():
-    intial_state = load_intial_state('input.example')
+    # intial_state = load_intial_state('input.example')
+    intial_state = load_intial_state()
 
     print_grid(intial_state)
     scores = set()
