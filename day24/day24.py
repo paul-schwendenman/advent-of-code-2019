@@ -52,19 +52,41 @@ def print_grid(state):
     print('')
 
 
+def score_state(state):
+    score = 0
+    count = 0
+
+    for y in range(5):
+        for x in range(5):
+            if state[y][x]:
+                score += pow(2, count)
+
+            count += 1
+
+    return score
+
+
 def main():
     intial_state = load_intial_state('input.example')
 
     print_grid(intial_state)
+    scores = set()
+    score = 0
+    state = intial_state
 
-    state = step_simulation(intial_state)
+    while True:
+        state = step_simulation(state)
 
-    print_grid(state)
+        print_grid(state)
 
-    state = step_simulation(state)
+        score = score_state(state)
+        if score in scores:
+            break
+        else:
+            scores.add(score)
 
-    print_grid(state)
+    return score
 
 
 if __name__ == "__main__":
-    main()
+    print(main())
