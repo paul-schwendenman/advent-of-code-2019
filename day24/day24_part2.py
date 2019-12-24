@@ -57,7 +57,7 @@ def count_neighboors(states, x, y, depth):
 
 def step_simulation(states):
     new_states = defaultdict(lambda: defaultdict(lambda: defaultdict(bool)))
-    for depth in range(-10, 11):
+    for depth in range(-200, 200):
         state = states[depth]
         for y in range(5):
             for x in range(5):
@@ -107,7 +107,7 @@ def main():
     states[0] = initial_state
     print_grid(states)
 
-    for _ in range(10):
+    for _ in range(200):
         states = step_simulation(states)
 
         print_grid(states)
