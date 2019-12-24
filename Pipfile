@@ -9,6 +9,7 @@ flake8 = "*"
 doc8 = "*"
 mypy = "*"
 rope = "*"
+jupyter = "*"
 
 [packages]
 intcode = {editable = true,path = "./libs"}
