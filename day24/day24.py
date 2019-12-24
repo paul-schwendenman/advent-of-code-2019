@@ -1,15 +1,24 @@
+from collections import defaultdict
+
+
 def load_intial_state(filename='input'):
+    state = defaultdict(lambda: defaultdict(bool))
+
     with open(filename) as file_input:
         lines = file_input.read().splitlines()
 
-    return [[True if item == '#' else False for item in line] for line in lines]
+    for y, line in enumerate(lines):
+        for x, item in enumerate(line):
+            state[y][x] = (item == "#")
+
+    return state
 
 
 def get_neighboors(state, x, y):
-    yield state[y-1][x] if y > 0 else False
-    yield state[y][x-1] if x > 0 else False
-    yield state[y+1][x] if y < 4 else False
-    yield state[y][x+1] if x < 4 else False
+    yield state[y-1][x]
+    yield state[y][x-1]
+    yield state[y+1][x]
+    yield state[y][x+1]
 
 
 def count_neighboors(state, x, y):
@@ -23,9 +32,11 @@ def count_neighboors(state, x, y):
 
 
 def step_simulation(state):
-    new_state = [[False for _ in range(5)] for _ in range(5)]
-    for y, row in enumerate(state):
-        for x, space in enumerate(row):
+    new_state = defaultdict(lambda: defaultdict(bool))
+    # new_state = [[False for _ in range(5)] for _ in range(5)]
+    for y in range(5):
+        for x in range(5):
+            space = state[y][x]
             count = count_neighboors(state, x, y)
             print(f'{(x, y)} {"#" if space else "."} \t{count}', end='\t')
             if space:
