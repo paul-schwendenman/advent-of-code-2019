@@ -83,6 +83,7 @@ if __name__ == "__main__":
             inventory.append(item)
             input_command = make_instruction(f'take {item}\nsouth')
         else:
-            input_command = make_instruction(input())
+            break
+            # input_command = make_instruction(input())
 
         computer._inputs.extend(input_command)
