@@ -46,6 +46,7 @@ if __name__ == "__main__":
         make_instruction('west'),
         make_instruction('take shell'),
         make_instruction('south'),
+        make_instruction('south'),
     ]
     for instruction in inputs:
         computer._inputs.extend(instruction)
